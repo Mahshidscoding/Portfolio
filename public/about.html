@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Portfolio</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/carousel.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/projects.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/about.css">
+
+
+    <style>
+        /* Custom cursor styles */
+        body, html {
+            cursor: none; /* Hide the default cursor */
+        }
+
+        .cursor {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            background-color: white;
+            transform: translate(-50%, -50%);
+            transition: width 0.15s ease-out, height 0.15s ease-out, border-radius 0.15s ease-out;
+            will-change: transform, width, height;
+        }
+        
+        /* Make all interactive elements use the custom cursor */
+        a, button, .skills-cta-button, .contact-button, input, 
+        select, textarea, [role="button"], .lets-chat-button,
+        .nav-button, .title-icon, .icon-container {
+            cursor: none !important;
+        }
+        
+        /* Duplicate declaration to match ARCH page exactly */
+        body, html {
+            cursor: none;
+        }
+
+        /* Contact Window Styles - Match home page */
+        .contact-section-wrapper {
+            margin-top: 80px;
+            margin-bottom: 140px;
+            padding-left: 24px;
+            padding-right: 24px;
+            max-width: 1600px;
+            margin-left: auto;
+            margin-right: auto;
+            width: calc(100% - 48px);
+        }
+          
+        .contact-window {
+            background-color: #f8f8f8 !important;
+            border: 1px solid #000 !important;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(165, 165, 165, 0.1);
+            overflow: hidden;
+            width: 100%;
+        }
+          
+        .window-header {
+            background-color: #f0f0f0 !important;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            height: 36px;
+        }
+          
+        .window-dots {
+            display: flex;
+            gap: 6px;
+            margin-right: 12px;
+        }
+          
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: transparent !important;
+            border: 1px solid #000 !important;
+            box-sizing: border-box;
+        }
+          
+        .window-title {
+            font-family: monospace;
+            font-size: 14px;
+            color: #000 !important;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            right: 0;
+        }
+          
+        .window-content {
+            padding: 40px;
+            font-family: 'Space Grotesk', sans-serif;
+            color: #000 !important;
+        }
+          
+        .contact-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            align-items: flex-start;
+        }
+          
+        .contact-left {
+            flex: 1;
+        }
+          
+        .contact-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+          
+        .contact-title {
+            font-size: 45px;
+            font-weight: 400;
+            color: #000 !important;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+          
+        .contact-location {
+            display: block;
+            margin-top: 24px;
+            margin-bottom: 0px;
+            width: 100%;
+            text-align: right;
+            line-height: 0.2;
+        }
+          
+        .contact-location span {
+            font-size: 16px;
+            color: #000 !important;
+            display: inline-block;
+        }
+          
+        .contact-text {
+            font-size: 18px;
+            line-height: 1.2;
+            color: #000 !important;
+            margin: 0;
+            text-align: right;
+            display: block;
+            width: 35%;
+        }
+          
+        .contact-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+            margin-top: 40px;
+        }
+          
+        .contact-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: transparent !important;
+            border: 1px solid #000 !important;
+            border-radius: 8px !important;
+            padding: 16px;
+            text-decoration: none;
+            color: #000 !important;
+            font-size: 14px;
+            font-weight: 500;
+            height: 100px;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+          
+        .contact-button img {
+            width: 20px;
+            height: 20px;
+            filter: none !important;
+        }
+          
+        .contact-button:hover {
+            background-color: #be4bbe !important;
+        }
+          
+        .contact-button.selected {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+          
+        .contact-button.selected img {
+            filter: brightness(0) invert(1) !important;
+        }
+          
+        .contact-button.copied {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+          
+        .contact-button.copied img {
+            filter: brightness(0) invert(1) !important;
+        }
+          
+        .contact-button.copied:hover {
+            background-color: #000 !important;
+        }
+          
+        @keyframes popIn {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+          
+        .contact-button.copied .email-icon {
+            display: none;
+        }
+          
+        .contact-button.copied .checkmark-icon {
+            display: inline-block;
+            animation: popIn 0.4s ease forwards;
+        }
+          
+        .checkmark-icon {
+            display: none;
+        }
+
+        /* Responsive Styles - Improve layout for mobile */
+        @media (max-width: 768px) {
+            .about-intro,
+            .about-goals {
+                height: auto;
+                padding: 30px 20px;
+                margin-top: 40px;
+            }
+
+            .two-column-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .left-column, 
+            .right-column {
+                width: 100%;
+                height: auto;
+            }
+            
+            /* Skills section adjustments for mobile */
+            .skills-row-1 {
+                flex-direction: column;
+                height: auto;
+                gap: 30px;
+            }
+            
+            .skills-row-1 img, .skills-row-2 img {
+                max-width: 80%; /* Make SVGs smaller on mobile */
+                height: auto;
+            }
+            
+            .skills-row-2 {
+                height: auto;
+                margin-top: 30px;
+            }
+            
+            .skills-cta-button {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                transform: none;
+                margin: 30px auto 0;
+            }
+            
+            /* Contact section mobile adjustments */
+            .contact-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .contact-right {
+                align-items: flex-start;
+            }
+            
+            .contact-location,
+            .contact-text {
+                text-align: left;
+                width: 100%;
+            }
+            
+            .contact-buttons {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .contact-button {
+                height: 80px;
+            }
+        }
+        
+        /* Small mobile adjustments */
+        @media (max-width: 480px) {
+            .contact-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-row-1 img, .skills-row-2 img {
+                max-width: 70%; /* Make SVGs even smaller on small mobile */
+            }
+        }
+    </style>
+</head>
+  
+<body>
+    <!-- Custom cursor element -->
+    <div class="cursor"></div>
+
+    <div class="noise-overlay"></div>
+    
+    <!-- Navigation -->
+    <header>
+        <div class="top-nav">
+            <a href="index.html" class="nav-logo">
+              <img src="images/logo.svg" alt="Logo">
+            </a>
+            <a href="#contact" class="lets-chat-button">
+                <div class="circle-overlay"></div>
+                <span>Let's chat</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="site-container">
+        <main>
+            <!-- First Section: Text left, image right -->
+            <section class="about-intro">
+                <div class="two-column-container">
+                    <div class="left-column">
+                        <h1>I'm Mahshid</h1>
+                        <p class="subtitle">A multidisciplinary designer</p>
+                        
+                        <div class="about-text">
+                            <p>I have experience in <span class="highlight">various fields</span> of design and this journey had given me the opportunity to have the bigger understanding of the <span class="highlight">universal principles</span> of the design and how it can be applied to anything to <span class="highlight">solve a problem, communicate</span> or to create an <span class="highlight">experience</span>.</p>
+                            
+                            <p>I'm an artist designer, I believe that while art <span class="highlight">asks questions</span>, design offers <span class="highlight">practical answers</span>. In my work, I try to combine the two, blending curiosity and functionality to create more <span class="highlight">powerful and engaging experiences</span>.</p>
+                        </div>
+
+                    </div>
+                    <div class="right-column">
+                        <div class="about-image">
+                            <img src="images/profile.png" alt="Profile Image">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Second Section: Image left, text right -->
+            <section class="about-goals">
+                <div class="two-column-container">
+                    <div class="left-column mobile-order-2">
+                        <div class="about-secondary-image">
+                            <img src="images/profile.png" alt="Secondary Profile Image">
+                        </div>
+                    </div>
+                    <div class="right-column mobile-order-1">
+                        <h2>Current goal</h2>
+                        <div class="about-text">
+                            <p>Over the past year, I've been working to improve my <span class="highlight">coding skills</span> to be bale to build my ideas and my designs. I've explored <span class="highlight">node-based programming</span>, experimented with <span class="highlight">Python</span> and <span class="highlight">JavaScript</span>, and even built this portfolio website myself!</p>
+                            
+                            <p>I've also been diving into <span class="highlight">AI</span>, exploring <span class="highlight">implementing</span> it and learning how to apply it in my projects.</p>
+                            
+                            <p>My goal isn't to become a software engineer, but to gain a <span class="highlight">deeper understanding</span> of everything needed to create meaningful products and experiences.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+                        <!-- First Section: Text left, image right -->
+                        <section class="about-intro">
+                            <div class="two-column-container">
+                                <div class="left-column">
+                                    <h1>How I use AI</h1>
+                                    <div class="about-text">
+                                        <p>I use AI tools like MidJourney, Kling, and Claude to speed up my creative process and improve efficiency. Whether it’s generating quick mockups, refining visuals, or brainstorming ideas, these tools help me work smarter and faster.</p>
+                                        
+                                        <p>By incorporating AI into my workflow, I can focus more on the big picture and deliver high-quality work while saving time on repetitive tasks.</p>
+                                    </div>
+            
+                                </div>
+                                <div class="right-column">
+                                    <div class="about-image">
+                                        <img src="images/profile.png" alt="Profile Image">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+
+            <!-- Third Section: Skills & experiences (responsive updates) -->
+            <section class="about-skills">
+                <div class="skills-title">
+                    <h2 class="section-title">Skills & experiences</h2>
+                </div>
+                <div class="skills-content">
+                    <div class="skills-row-1">
+                        <img src="images/soft.svg" alt="Skill Icon 1" class="skill-svg">
+                        <img src="images/hard.svg" alt="Skill Icon 2" class="skill-svg">
+                    </div>
+                    <div class="skills-row-2">
+                        <img src="images/exp.svg" alt="Skill Icon 3" class="skill-svg">
+                        <button class="skills-cta-button">
+                            <img src="images/download.svg" alt="Download" class="button-icon">
+                            Download CV
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+<!-- Contact Section - Window Style -->
+<div class="contact-section-wrapper">
+    <div class="contact-window">
+        <!-- Window Header -->
+        <div class="window-header">
+            <div class="window-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <div class="window-title">contact.txt</div>
+        </div>
+        
+        <!-- Window Content -->
+        <div class="window-content">
+            <div class="contact-header">
+                <!-- Left side: Title -->
+                <div class="contact-left">
+                    <h3 class="contact-title">Let's chat!</h3>
+                </div>
+                
+                <!-- Right side: Location and text -->
+                <div class="contact-right">
+                    <div class="contact-location">
+                        <span>Currently in Toronto, Canada (GMT-4)</span>
+                    </div>
+                    <p class="contact-text">
+                        If our coordinates align, let's connect over coffee ☕
+                    </p>
+                </div>
+            </div>
+            
+            <div class="contact-buttons">
+                <button class="contact-button" id="copy-email-btn">
+                    <img src="images/Icons/email.svg" alt="Email" class="email-icon">
+                    <img src="images/Icons/checkmark.svg" alt="Copied" class="checkmark-icon">
+                    <span>Copy email</span>
+                </button>
+                <a href="tel:+1234567890" class="contact-button">
+                    <img src="images/Icons/call.svg" alt="Phone">
+                    <span>Book call</span>
+                </a>
+                <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="contact-button">
+                    <img src="images/Icons/linkedin.svg" alt="LinkedIn">
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://dribbble.com/yourprofile" target="_blank" class="contact-button">
+                    <img src="images/Icons/dribbble.svg" alt="Dribbble">
+                    <span>Dribbble</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+             
+        </main>
+    </div>
+
+    <!-- External Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Navigation scroll effect
+        document.addEventListener('scroll', function() {
+            const nav = document.querySelector('.top-nav');
+            if (window.scrollY > 0) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+        
+        // Custom cursor functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursor = document.querySelector('.cursor');
+            
+            // Follow the mouse with requestAnimationFrame for smoother movement
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            
+            // Use requestAnimationFrame for smoother cursor movement
+            function updateCursor() {
+                cursor.style.left = `${mouseX}px`;
+                cursor.style.top = `${mouseY}px`;
+                requestAnimationFrame(updateCursor);
+            }
+            requestAnimationFrame(updateCursor);
+            
+            // Make cursor transform when hovering over interactive elements
+            const interactiveElements = document.querySelectorAll('a, button, .contact-button, .skills-cta-button, .lets-chat-button');
+            
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.style.width = '60px';
+                    cursor.style.height = '24px';
+                    cursor.style.borderRadius = '12px';
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.style.width = '24px';
+                    cursor.style.height = '24px';
+                    cursor.style.borderRadius = '50%';
+                });
+            });
+
+            // Handle copy email button
+            const copyEmailButton = document.getElementById('copy-email-btn');
+            
+            if (copyEmailButton) {
+                copyEmailButton.addEventListener('click', function() {
+                    // The email to copy
+                    const email = 'mahshidmdnn@gmail.com';
+                    
+                    // Use the modern Clipboard API
+                    navigator.clipboard.writeText(email).then(() => {
+                        // Visual feedback - change button appearance
+                        const span = this.querySelector('span');
+                        const originalText = span.textContent;
+                        
+                        // Add the copied class
+                        this.classList.add('copied');
+                        
+                        // Change text
+                        span.textContent = 'Copied!';
+                        
+                        // Reset the button after 2 seconds
+                        setTimeout(() => {
+                            span.textContent = originalText;
+                            this.classList.remove('copied');
+                        }, 1000);
+                    }).catch(err => {
+                        // Fallback for older browsers if the Clipboard API fails
+                        const tempInput = document.createElement('input');
+                        tempInput.value = email;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+                        
+                        // Visual feedback
+                        const span = this.querySelector('span');
+                        const originalText = span.textContent;
+                        
+                        // Add the copied class
+                        this.classList.add('copied');
+                        
+                        // Change text
+                        span.textContent = 'Copied!';
+                        
+                        // Reset button
+                        setTimeout(() => {
+                            span.textContent = originalText;
+                            this.classList.remove('copied');
+                        }, 2000);
+                    });
+                });
+            }
+
+            // Order elements differently on mobile
+            function handleMobileLayout() {
+                if (window.innerWidth <= 768) {
+                    // Move elements for better mobile layout
+                    const mobileOrder1 = document.querySelectorAll('.mobile-order-1');
+                    const mobileOrder2 = document.querySelectorAll('.mobile-order-2');
+
+                    mobileOrder1.forEach(el => {
+                        if (el.parentNode) {
+                            el.parentNode.prepend(el);
+                        }
+                    });
+                }
+            }
+
+            // Run on load and on resize
+            handleMobileLayout();
+            window.addEventListener('resize', handleMobileLayout);
+        });
+    </script>
+</body>
+</html>

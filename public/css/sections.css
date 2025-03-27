@@ -1,0 +1,875 @@
+
+/* ======================
+    Overlay window styles 
+   ====================== */
+#overlay-window {
+  width: 320px;
+  height: 320px;
+  position: absolute;
+  top: 180px;
+  right: 100px;
+  overflow: hidden;
+  z-index: 90; /* Above regular content but below other windows when dragged */
+}
+
+#overlay-window .window-content {
+  padding: 0 !important;
+  height: calc(100% - 36px); /* Subtracting header height */
+  overflow: hidden;
+  position: relative;
+}
+
+/* The large background image that gets revealed */
+.overlay-image-container {
+  position: absolute;
+  top: -210px;
+  right: -100px;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  transform-origin: top left;
+  pointer-events: none; /* Allow dragging the window even over the image */
+}
+
+#overlay-window .overlay-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85; /* Slightly transparent to create overlay effect */
+  filter: hue-rotate(180deg); /* Adjust this value to get a different color variation */
+}
+
+
+
+/* Make sure resize handles and window interactions still work properly */
+#overlay-window .window-header {
+  z-index: 2;
+  position: relative;
+  background-color: rgba(240, 240, 240, 0.9); /* Semi-transparent header */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #overlay-window {
+    width: 260px;
+    height: 260px;
+    top: 270px;
+    right: 50px;
+  }
+}
+
+/* Ensure the overlay image container fills the window content area properly */
+#overlay-window .window-content {
+  padding: 0 !important;
+  height: calc(100% - 36px); /* Subtract header height */
+  overflow: hidden;
+  position: relative;
+}
+
+/* Make sure the image inside the container is visible */
+#overlay-window .overlay-image-container img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+
+
+
+
+
+/* Homepage Hero  */
+
+.background-title {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  width: 100%; /* Use 100% width of the container */
+  margin: 0 auto; /* Auto margins for horizontal centering */
+  text-align: center; /* Center the image inside */
+  z-index: 1;
+  pointer-events: none;
+}
+
+.site-title-svg {
+  width: auto; /* Let the width adjust naturally */
+  max-width: 90%; /* Prevent overflow */
+  max-height: 150px; /* Increase height for larger appearance */
+  object-fit: contain;
+}
+
+/* Responsive adjustments for the background title */
+@media (max-width: 768px) {
+  .background-title {
+    top: 12px;
+    left: 16px;
+    right: 16px;
+  }
+  
+  .site-title-svg {
+    max-height: 80px;
+  }
+}
+
+
+/* Background enhancement for draggable container */
+.draggable-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Background gif container that takes full width and height */
+.draggable-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('bg.png');
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+}
+
+/* White rectangle with opacity and blur*/
+.draggable-container::after {
+  content: "";
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  right: 30px;
+  bottom: 30px;
+  background-color: rgba(255, 255, 255, 0.2); 
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(10px); 
+  border-radius: 12px; 
+  z-index: -1;
+} 
+
+
+/* Ensure all draggable content remains above the background layers */
+.draggable-window, 
+.draggable-icon,
+.background-title {
+  position: relative;
+  z-index: 5;
+}
+
+
+/* Make sure these z-index values are consistent with your structure */
+.draggable-window {
+  z-index: 100; /* Already in your CSS, just confirming it's higher than the background */
+}
+
+.draggable-icon {
+  z-index: 150 !important; /* Already in your CSS, keeping it consistent */
+}
+
+ /* Homepage Hero  */
+ .draggable-container {
+  min-height: 95vh; /* Increased from 80vh to 95vh */
+  position: relative;
+  min-height: 100vh; /* Make sure container has enough height */
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  overflow: hidden;
+  margin-bottom: 100px; /* Add space between container and projects section */
+}
+
+/* ============================
+   DRAGGABLE WINDOW OPTIMIZATIONS
+   ============================ */
+
+/* Base styles for draggable windows */
+.draggable-window {
+  position: absolute;
+  background-color: #f8f8f8;
+  border: 1px solid #000;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  /* Remove cursor: move - will be handled by interact.js */
+  transition: box-shadow 0.2s ease; /* Only transition box-shadow, not transform */
+  will-change: transform; /* Optimize for GPU acceleration */
+}
+
+/* Remove hover transform to prevent conflicts with dragging */
+.draggable-window:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  /* Remove transform to prevent conflict with dragging */
+}
+
+/* Hello window specific styles */
+#hello-window {
+  width: 320px;
+  max-width: 100%;
+  /* Initial position will be set by JavaScript */
+}
+
+/* Ensure no transforms or transitions when dragging */
+.dragging {
+  transition: none !important;
+  z-index: 1000 !important; /* Always on top when dragging */
+  /* No transforms during drag */
+}
+
+/* Window header for drag handle */
+.window-header {
+  background-color: #f0f0f0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  /* Remove cursor styles - let interact.js handle this */
+  user-select: none; /* Prevent text selection during drag */
+}
+
+/* Window content */
+.window-content {
+  padding: 16px;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #000;
+}
+
+
+/* Adjust size of the image window */
+#hello-image-1 {
+  width: 320px; /* Reduce from 320px to 240px */
+  height: 320px;
+  max-width: 100%;
+  top: 80px;
+  left: 180px;
+}
+
+/* Make sure the window content has appropriate padding for smaller window */
+#hello-image-1 .window-content {
+  padding: 6px;
+  height: calc(100% - 36px); /* Subtracting header height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure the image scales properly within the smaller window */
+#hello-image-1 .window-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This will fill the space without distortion */
+  display: block;
+  border-radius: 4px;
+  margin: 0;
+}
+
+/* Ensure images fit inside window content regardless of window size */
+.window-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* This preserves aspect ratio while fitting within container */
+  display: block; /* Removes any extra spacing */
+  max-width: 100%;
+  margin: 0 auto; /* Centers the image */
+}
+
+/* Window text specific to hello window */
+#hello-window .window-content p {
+  margin: 2px 0 24px 0; /* Combined margins for cleaner CSS */
+  font-size: 16px;
+  color: #000;
+}
+
+/* Window buttons container */
+.window-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
+/* Individual window buttons */
+.window-button {
+  background-color: #f8f8f8;
+  border: 1px solid #000;
+  padding: 8px 0;
+  width: 48%;
+  text-align: center;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #000;
+  transition: background-color 0.2s ease; /* Simple transition */
+}
+
+.window-button:hover {
+  background-color: #e8e8e8;
+}
+
+/* Window dots styling */
+.window-dots {
+  display: flex;
+  gap: 6px;
+  margin-right: 12px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid #000;
+  box-sizing: border-box;
+}
+
+.window-title {
+  font-family: monospace;
+  font-size: 14px;
+}
+
+/* ============================
+   DRAGGABLE ICON OPTIMIZATIONS
+   ============================ */
+
+.draggable-icon {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+  text-align: center;
+  z-index: 150;
+  transition: transform 0.2s ease;
+  will-change: transform; /* Optimize for GPU acceleration */
+}
+
+/* Icon positioning */
+#work-icon {
+  bottom: 50px;
+  left: calc(48% - 120px);
+}
+
+#about-icon {
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#chat-icon {
+  bottom: 50px;
+  right: calc(50% - 150px);
+}
+
+/* Icon styles */
+.icon-img {
+  background-color: transparent;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.icon-img img {
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.icon-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #000 !important;
+  margin-top: 4px;
+}
+
+/* Icon hover effect */
+.draggable-icon:hover:not(.dragging) {
+  transform: translateY(-2px);
+}
+
+/* Selected state styling */
+.draggable-icon.selected .icon-img {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.draggable-icon.selected .icon-label {
+  font-weight: 600;
+}
+
+/* Icon click feedback */
+.draggable-icon.clicked {
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+/* Ensure no transitions during drag */
+.draggable-icon.dragging {
+  transition: none !important;
+}
+
+/* ============================
+   MEDIA QUERIES
+   ============================ */
+
+@media (max-width: 768px) {
+  #work-icon {
+    bottom: 100px !important;
+    left: 60px;
+  }
+  
+  #about-icon {
+    bottom: 100px !important;
+    left: 160px;
+  }
+  
+  #chat-icon {
+    bottom: 100px !important;
+    left: 260px;
+  }
+  
+  /* Adjust size of hello window on mobile */
+  #hello-window {
+    width: 300px;
+  }
+}
+
+
+
+
+
+/* Homepage Hero Styles */
+.homepage-hero {
+    position: relative;
+    width: 100%;
+    height: 93vh; /* Adjust as needed */
+    margin-top: 24px; /* Added top margin */
+    margin-bottom: 80px; /* Space between hero and project section title */
+    overflow: hidden;
+  }
+  
+  .homepage-hero-image {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .homepage-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Hero navigation styling */
+  .homepage-hero .hero-navigation {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 32px;
+    z-index: 5;
+  }
+  
+  /* Projects section title */
+  .projects-section-title {
+    margin-bottom: 56px;
+    text-align: center;
+  }
+  
+  .projects-section-title h2 {
+    font-size: var(--font-size-h3);
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+  
+  /* Projects container - now inside site-container */
+  .projects-container {
+    width: calc(100% - 8px); 
+    max-width: calc(var(--container-max) - 48px);
+    margin: 0 auto;
+    padding: 0px; /* Add padding inside the container */
+    background-color: var(--color-lightGrey); 
+    border-radius: 8px;
+  }
+  
+  /* Adjust bottom spacer */
+  .bottom-spacer {
+    height: px; /* Increased for better spacing at page bottom */
+  }
+
+
+
+
+
+  /* CSS to apply cobalt theme ONLY to the homepage */
+
+/* Add a specific class to your homepage body tag */
+body.homepage {
+  background-color: var(--color-homebg) !important;
+  color: var(--color-white);
+}
+
+/* Target elements only on the homepage */
+body.homepage header,
+body.homepage .top-nav {
+  background-color: transparent;
+}
+
+body.homepage .contact-window .contact-button img {
+  filter: none !important; /* Ensure no filter is applied to SVG icons */
+}
+
+body.homepage .lets-chat-button {
+  background-color: var(--color-white);
+  color: var(--color-cobalt);
+}
+
+body.homepage .lets-chat-button:hover {
+  background-color: var(--color-cobaltblue);
+  color: var(--color-white);
+}
+
+body.homepage .section-title {
+  color: var(--color-primary);
+}
+
+body.homepage .project-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.homepage .project-card:hover {
+  transform: translateY(-5px);
+}
+
+body.homepage .project-card-content {
+  color: var(--color-white);
+}
+
+/* Card title colors */
+body.homepage .default-title {
+  color: var(--color-white); /* White text for default title */
+}
+
+body.homepage .project-card:hover .hover-title {
+  color: #505050; /* White text for hover title */
+}
+
+body.homepage .default-title {
+  color: var(--color-white);
+}
+
+body.homepage .hover-title {
+  color: #505050; /* Make hover text white instead of gray */
+  font-weight: 400; /* Slightly bolder for better readability */
+  opacity: 0; /* Start hidden */
+  transform: translateY(30px); /* Start positioned below */
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+/* Ensure the slide effect works properly */
+body.homepage .project-card:hover .hover-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+body.homepage .icon-default img {
+  filter: brightness(0) invert(1); /* Makes black icon white */
+}
+
+
+
+
+
+
+
+/* GIF Hover Play Effect */
+.gif-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Static image (visible by default) */
+.gif-container .static-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Animated GIF (hidden by default) */
+.gif-container .animated-gif {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+/* Show GIF on hover */
+.gif-container:hover .animated-gif {
+  opacity: 1;
+}
+
+/* For better performance on supported browsers */
+@supports (content-visibility: auto) {
+  .gif-container .animated-gif:not(:hover) {
+    content-visibility: auto;
+  }
+}
+
+/* Preserve existing hover effects on project cards */
+body.homepage .project-card:hover {
+  transform: translateY(-5px);
+}
+
+
+/* TESTING THE SWECTION */
+
+/* Projects container with margins */
+body.homepage .projects-container {
+  width: calc(100% - 16px); /* 24px on each side */
+  max-width: calc(var(--container-max) - 48px);
+  background: transparent;
+  margin: 0 auto;
+  padding: 0px; /* Add padding inside the container */
+  border-radius: 8px;
+}
+
+/* Project cards layout - exactly two cards per row */
+body.homepage .project-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Always 2 columns */
+  gap: 24px; /* Gap between cards */
+  width: 100%;
+}
+
+/* Project card sizing with fixed height */
+body.homepage .project-card {
+  width: 100%;
+  height: 512px; /* Fixed height as requested */
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Image container takes most of the card height */
+body.homepage .project-card-image-container {
+  width: 100%;
+  height: 460px; /* Allowing space for the title area */
+  position: relative;
+  overflow: hidden;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+body.homepage .project-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Content area with title */
+body.homepage .project-card-content {
+  flex: 1;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Card title colors (dark on white) */
+body.homepage .default-title,
+body.homepage .hover-title {
+  color: var(--color-primary); /* Dark text on white background */
+}
+
+/* Icon styling */
+body.homepage .icon-default img {
+  filter: none; /* Keep original icon color */
+}
+
+@media (max-width: 768px) {
+  body.homepage .projects-container {
+    width: calc(100% - 32px); /* Smaller margin on mobile */
+    padding: 16px; /* Smaller padding on mobile */
+  }
+  
+  body.homepage .projects-title-section {
+  margin-bottom: 60px; 
+    width: calc(100% - 32px);
+  }
+  
+  body.homepage .project-cards {
+    grid-template-columns: 1fr; /* Stack cards vertically on mobile */
+    gap: 16px;
+  }
+  
+  body.homepage .project-card {
+    height: 400px; /* Smaller height on mobile */
+  }
+  
+  body.homepage .project-card-image-container {
+    height: 350px;
+  }
+}
+
+
+
+  
+  /* Media queries for responsive design */
+  @media (max-width: 768px) {
+    .homepage-hero {
+      height: 60vh;
+      margin-bottom: 60px;
+    }
+    
+    .homepage-hero .hero-navigation {
+      bottom: 40px;
+      gap: 16px;
+    }
+    
+    .bottom-spacer {
+      height: 60px;
+    }
+  }
+
+
+
+
+
+/*Add these styles to your CSS file 
+/
+
+/* Animation keyframes */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    clip-path: inset(100% 100% 0 0); /* Start clipped from top-right corner */
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0); /* End with full visibility */
+  }
+}
+
+/* Apply the animation to the section title - delayed and more dramatic */
+.projects-title-section {
+  animation: reveal linear;
+  animation-timeline: view();
+  animation-range: entry 25% cover 50%; /* More delayed appearance */
+  animation-fill-mode: both; /* Ensures the element stays invisible until animation starts */
+}
+
+/* Apply the animation to project cards */
+.project-card {
+  animation: reveal linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
+}
+
+/* Fallback for browsers that don't support scroll-driven animations */
+@supports not (animation-timeline: view()) {
+  .projects-title-section, .project-card {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+
+
+/*  ===================
+Design reflection 
+======================== */
+/* Design Reflections Card Styles */
+.reflection-card-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto 60px auto;
+}
+
+.reflection-card {
+  display: flex;
+  width: 100%;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transform here */
+  background-color: #fff;
+  margin-bottom: 180px;
+}
+
+.reflection-card:hover {
+  transform: translateY(-5px);
+}
+
+.reflection-card-image {
+  width: 230px;
+  min-width: 230px;
+  height: 150px;
+  background-color: #e0e0e0;
+}
+
+.reflection-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reflection-card-content {
+  padding: 24px;
+  flex-grow: 1;
+}
+
+.reflection-card-title {
+  font-size: 20px;
+  margin: 0 0 10px 0;
+  font-weight: 500;
+  color: #000;
+}
+
+.reflection-card-description {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.reflection-card-date {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .reflection-card {
+    flex-direction: column;
+  }
+  
+  .reflection-card-image {
+    width: 100%;
+    height: 180px;
+  }
+  
+  .reflection-card-content {
+    padding: 20px;
+  }
+}

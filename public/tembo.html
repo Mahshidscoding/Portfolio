@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMBO - Portfolio Project</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/projects.css">
+    <link rel="stylesheet" href="css/sections.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Inline styles for dark theme specific to this page -->
+    <style>
+        /* ====================== 
+           1. Base Styles & Dark Theme Overrides 
+           ====================== */
+        body, html {
+            background-color: #120F0E !important;
+            color: white;
+            cursor: none; /* Hide the default cursor */
+        }
+        
+        /* Custom cursor styles */
+        .cursor {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            background-color: white;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+        }
+        
+        /* Make all interactive elements use the custom cursor */
+        a, button, .project-card, .contact-button, input, 
+        select, textarea, [role="button"], .lets-chat-button,
+        .nav-button, .title-icon, .icon-container {
+            cursor: none !important;
+        }
+        
+        /* ====================== 
+           2. Text & Content Colors for Dark Theme 
+           ====================== */
+        .project-description,
+        .project-hero-title,
+        .section-title,
+        .default-title,
+        .project-card-title {
+            color: white !important;
+        }
+        
+        .stat-label {
+            color: #888888;
+        }
+        
+        .stat-value {
+            color: white;
+        }
+        
+        .hover-title {
+            color: #BBBBBB !important; /* Lighter gray for better visibility */
+        }
+        
+        .project-card-content {
+            color: white;
+        }
+        
+
+
+        .project-hero-content h1 {
+    position: relative;
+    z-index: 2;
+    color: rgb(255, 255, 255);
+    font-size: 120px;
+    font-weight: 400;
+    text-align: center;
+}
+
+
+        /* ====================== 
+           3. Navigation Elements 
+           ====================== */
+        /* Top Nav */
+        .top-nav {
+            background-color: transparent !important;
+        }
+        
+        /* Let's Chat Button */
+        .lets-chat-button {
+            background-color: white !important;
+            color: #120F0E !important;
+        }
+        
+        .lets-chat-button .circle-overlay {
+            background-color: rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        .lets-chat-button span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Floating Nav */
+        .floating-nav {
+            background-color: rgba(255, 255, 255, 0.12) !important;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .floating-nav .back-button,
+        .floating-nav .project-name {
+            color: white !important;
+        }
+        
+        .floating-nav .start-project-button {
+            background-color: white !important;
+            color: #120F0E !important;
+        }
+        
+        /* Invert back button icon */
+        .back-button img {
+            filter: brightness(0) invert(1) !important;
+        }
+        
+        /* ====================== 
+           4. Project Cards & Images
+           ====================== */
+        /* Project Card Structure */
+        .project-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px !important;
+            width: 100%;
+        }
+        
+        .project-card {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background-color: transparent;
+            border-radius: 8px;
+            height: 512px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-card-image-container {
+            width: 100%;
+            height: 460px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .project-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease;
+        }
+        
+        .project-card:hover .project-card-image {
+            transform: scale(1.05);
+        }
+        
+        .project-card-content {
+            margin-top: 16px;
+        }
+        
+        /* Title & Icon Styles */
+        .project-title-with-icon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .project-card-title-container {
+            position: relative;
+        }
+        
+        .default-title {
+            opacity: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(0);
+            font-size: var(--font-size-h3);
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .hover-title {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(10px);
+            font-size: var(--font-size-normal);
+        }
+        
+        .project-card:hover .default-title {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        
+        .project-card:hover .hover-title {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Icon Container */
+        .icon-container {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .icon-default {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .icon-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background-color: white;
+        }
+        
+        .project-card:hover .icon-default {
+            opacity: 0;
+        }
+        
+        .project-card:hover .icon-hover {
+            opacity: 1;
+        }
+        
+        /* Make icon white in dark theme */
+        .icon-default img {
+            filter: brightness(0) invert(1) !important;
+        }
+        
+        /* ====================== 
+           5. Layout Containers & Sections 
+           ====================== */
+        /* Site Container */
+        .site-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Project Info Section */
+        .project-info {
+            background-color: #120F0E !important;
+        }
+        
+        /* Action Button styles */
+        .action-button {
+            color: #120F0E;
+            background-color: #F4F4F4;
+        }
+        
+        /* Container Consistency */
+        .image-grid,
+        .projects-container,
+        .contact-section-wrapper {
+            max-width: 1600px !important;
+            margin-left: 18px !important;
+            margin-right: 18px !important;
+            padding-left: 24px !important;
+            padding-right: 24px !important;
+            width: auto !important;
+        }
+        
+        /* Projects Section */
+        .projects-container {
+            background: transparent !important;
+        }
+        
+        .projects-title-section {
+            padding: 60px 0 40px !important;
+            margin: 0 !important;
+            width: 100% !important;
+            text-align: center;
+        }
+        
+        /* Remove any nested container backgrounds */
+        .projects-container > * {
+            background-color: transparent !important;
+        }
+        
+        /* Fix image grid padding */
+        .project-images {
+            padding: 0 !important;
+        }
+        
+        /* Section Divider */
+        .section-divider {
+            width: calc(100% - 48px) !important;
+            margin-left: 24px !important;
+            margin-right: 24px !important;
+            max-width: 1600px !important;
+            margin: 80px auto 40px !important;
+        }
+        
+        /* ====================== 
+           6. Contact Section 
+           ====================== */
+        .contact-section-wrapper {
+            margin-top: 80px !important;
+            margin-bottom: 80px !important;
+        }
+        
+        .contact-window {
+            max-width: none !important;
+            width: 100% !important;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: rgb(34, 34, 34) !important; /* 10% opacity white background */
+        }
+        .window-header {
+    background-color: rgb(67, 67, 67) !important; /* Slightly more opaque for header */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+.window-title {
+    color: rgba(255, 255, 255, 0.8) !important; /* Slightly less bright for balance */
+}
+    
+.dot {
+    background-color: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important; /* More visible border */
+}
+
+        .window-content {
+            padding: 32px !important;
+        }
+        
+        .contact-buttons {
+            padding: 0 !important;
+        }
+        
+        .contact-text {
+            width: auto !important;
+        }
+        
+        /* Contact Elements Colors */
+        .contact-title, 
+        .contact-text, 
+        .contact-location span {
+            color: white !important;
+        }
+        
+        .contact-button {
+            background-color: #2A2A2A !important;
+            color: white !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .contact-button:hover {
+            background-color: white !important;
+            color: #120F0E !important;
+        }
+        
+        .contact-button img {
+            filter: brightness(0) invert(1) !important;
+        }
+        
+        .contact-button:hover img {
+            filter: brightness(0) !important;
+        }
+        
+
+        /* Contact Button States for Tembo dark theme */
+
+/* Selected state - white background with black text */
+.contact-button.selected {
+    background-color: white !important;
+    color: #120F0E !important;
+    border: 1px solid white !important;
+}
+
+/* Make icons black in selected state */
+.contact-button.selected img {
+    filter: brightness(0) !important; /* Black icons on selected */
+}
+
+/* Copied state for email button */
+.contact-button.copied {
+    background-color: white !important;
+    color: #120F0E !important;
+    border: 1px solid white !important;
+}
+
+/* Make icons black in copied state */
+.contact-button.copied img {
+    filter: brightness(0) !important; /* Black icons on copied */
+}
+
+/* Animation for the copied state */
+@keyframes popIn {
+    0% { transform: scale(0.8); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Email/Checkmark Icon Toggle */
+.contact-button.copied .email-icon {
+    display: none;
+}
+
+.contact-button.copied .checkmark-icon {
+    display: inline-block;
+    animation: popIn 0.4s ease forwards;
+}
+
+/* Copied state hover override */
+.contact-button.copied:hover,
+body .contact-button.copied:hover {
+    background-color: white !important;
+    color: #120F0E !important;
+}
+
+        /* ====================== 
+           7. Responsive Styles 
+           ====================== */
+        @media (max-width: 768px) {
+            .project-cards {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .project-card-image-container {
+                height: 350px;
+            }
+            
+            .project-card {
+                height: 400px;
+            }
+            
+            .image-grid,
+            .projects-container,
+            .contact-section-wrapper {
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+            
+            .section-divider {
+                width: calc(100% - 32px) !important;
+                margin-left: 16px !important;
+                margin-right: 16px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Custom cursor element -->
+<div class="cursor"></div>
+
+<!-- Top Navigation Bar -->
+<div class="top-nav">
+    <a href="index.html" class="nav-logo">
+        <img src="images/logo-w.svg" alt="Logo">
+    </a>
+    <a href="#contact" class="lets-chat-button">
+        <div class="circle-overlay"></div>
+        <span>Let's chat</span>
+    </a>
+</div>
+  
+<!-- Floating Navigation Bar -->
+<div class="floating-nav">
+    <a href="javascript:void(0);" class="back-button" onclick="history.back()">
+        <img src="images/back.svg" alt="Back">
+        Back
+    </a>
+    <div class="project-name">Tembo</div>
+    <a href="#contact" class="start-project-button">Start project</a>
+</div>
+
+<div class="parallax-container">
+    <!-- Hero Section with Large Image -->
+    <section class="project-hero">
+        <div class="project-hero-image">
+            <img src="images/tembo/header.png" alt="TEMBO Project Hero Image">
+        </div>
+        <div class="project-hero-content">
+            <h1>TEMBO</h1>
+        </div>
+    </section>
+</div>
+
+<!-- Project Info Section -->
+<section class="project-info">
+    <div class="project-action-buttons">
+        <button class="action-button">
+            <span class="location-icon"></span>
+            <img src="images/location.svg" alt="Visit" class="button-icon">
+            Ohio
+        </button>
+        <a href="https://tembo.io/" target="_blank" class="action-button" style="text-decoration: none;">
+            <span class="visit-icon"></span>
+            <img src="images/external.svg" alt="Visit" class="button-icon">
+            Visit site
+        </a>
+    </div>
+    
+    <p class="project-description">
+        Tembo is an AI Data Analyst which delivers instant AI business insights where you work.
+    </p>
+    
+    <p class="project-description">
+        At Babco, I led their 2024 rebrand, developing key branding concepts and redesigning both the marketing site and main application interface.
+    </p>
+    
+    <div class="stats-divider"></div>
+    
+    <!-- Project Stats Grid -->
+    <div class="project-stats">
+        <div class="stat-item">
+            <span class="stat-label">Agency</span>
+            <span class="stat-value">BABCO</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Role</span>
+            <span class="stat-value">Brand designer,<br>Product Designer</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Year</span>
+            <span class="stat-value">2024</span>
+        </div>
+    </div>
+</section>
+
+<!-- Project Images Grid -->
+<section class="project-images">
+    <div class="image-grid">
+        <!-- Two column layout -->
+        <div class="grid-row pattern-2">
+            <div class="grid-item">
+                <img src="images/tembo/1.png" alt="TEMBO Project Image 2">
+            </div>
+            <div class="grid-item">
+                <img src="images/tembo/2.png" alt="TEMBO Project Image 3">
+            </div>
+        </div>
+
+        <!-- Full width image -->
+        <div class="grid-row pattern-1">
+            <div class="grid-item">
+                <img src="images/tembo/3.png" alt="TEMBO Project Image 1">
+            </div>
+        </div>
+    
+        <!-- Two column layout -->
+        <div class="grid-row pattern-2">
+            <div class="grid-item">
+                <img src="images/tembo/4.png" alt="TEMBO Project Image 2">
+            </div>
+            <div class="grid-item">
+                <video autoplay loop muted playsinline class="video-content">
+                    <source src="images/tembo/vid.mp4" type="video/mp4">
+                    <!-- Fallback for browsers that don't support MP4 -->
+                    <source src="images/tembo/vid.mp4" type="video/webm">
+                    <!-- Fallback image if video can't play -->
+                    <img src="images/tembo/fallback.png" alt="TEMBO Project Video">
+                </video>
+            </div>
+        </div>
+        
+        <!-- Full width image -->
+        <div class="grid-row pattern-1">
+            <div class="grid-item">
+                <img src="images/tembo/5.png" alt="TEMBO Project Image 4">
+            </div>
+        </div>
+        
+        <!-- Two column layout -->
+        <div class="grid-row pattern-2">
+            <div class="grid-item">
+                <img src="images/tembo/6.png" alt="TEMBO Project Image 9">
+            </div>
+            <div class="grid-item">
+                <img src="images/tembo/7.png" alt="TEMBO Project Image 10">
+            </div>
+        </div>
+
+        <!-- Full width image -->
+        <div class="grid-row pattern-1">
+            <div class="grid-item">
+                <img src="images/tembo/8.png" alt="TEMBO Project Image 8">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- More Work Section with Homepage Styling -->
+<section class="projects-container">
+    <div class="projects-title-section">
+        <h2 class="section-title">More Work</h2>
+    </div>
+
+    <div class="project-cards">
+        <!-- Project Card 1: Brandmarch -->
+        <a href="brandmarch.html" style="text-decoration: none; color: inherit;">
+            <div class="project-card">
+                <div class="project-card-image-container gif-container">
+                    <!-- Static image (first frame) -->
+                    <img src="images/bm/card1.png" alt="Brandmarch Product Design" class="project-card-image static-image">
+                    <!-- Animated GIF (initially hidden) -->
+                    <img src="images/bm/card1.png" alt="Brandmarch Product Design" class="project-card-image animated-gif">
+                </div>
+                <div class="project-card-content">
+                    <div class="project-title-with-icon">
+                        <div class="icon-container">
+                            <div class="icon-default">
+                                <img src="images/icon-w.svg" alt="Arrow" class="title-icon">
+                            </div>
+                            <div class="icon-hover">
+                                <img src="images/icon-b.svg" alt="Arrow" class="title-icon">
+                            </div>
+                        </div>
+                        <div class="project-card-title-container">
+                            <h3 class="default-title">Brandmarch</h3>
+                            <span class="hover-title">Product Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        
+        <!-- Project Card 2: SQLite -->
+        <a href="sqlite.html" style="text-decoration: none; color: inherit;">
+            <div class="project-card">
+                <div class="project-card-image-container gif-container">
+                    <!-- Static image (first frame) -->
+                    <img src="images/sqlite/card1.png" alt="SQLite Product Design" class="project-card-image static-image">
+                    <!-- Animated GIF (initially hidden) -->
+                    <img src="images/sqlite/card.gif" alt="SQLite Product Design" class="project-card-image animated-gif">
+                </div>
+                <div class="project-card-content">
+                    <div class="project-title-with-icon">
+                        <div class="icon-container">
+                            <div class="icon-default">
+                                <img src="images/icon-w.svg" alt="Arrow" class="title-icon">
+                            </div>
+                            <div class="icon-hover">
+                                <img src="images/icon-b.svg" alt="Arrow" class="title-icon">
+                            </div>
+                        </div>
+                        <div class="project-card-title-container">
+                            <h3 class="default-title">SQLite</h3>
+                            <span class="hover-title">Product Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</section>
+  
+<!-- Contact Section -->
+<div class="contact-section-wrapper" id="contact">
+    <div class="contact-window">
+        <!-- Window Header -->
+        <div class="window-header">
+            <div class="window-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <div class="window-title">contact.txt</div>
+        </div>
+        
+        <div class="window-content">
+            <div class="contact-header">
+                <!-- Left side: Title -->
+                <div class="contact-left">
+                    <h3 class="contact-title">Let's chat!</h3>
+                </div>
+                
+                <!-- Right side: Location and text -->
+                <div class="contact-right">
+                    <div class="contact-location">
+                        <span>Currently in Toronto, Canada (GMT-4)</span>
+                    </div>
+                    <p class="contact-text">
+                        If our coordinates align, let's connect over coffee ☕
+                    </p>
+                </div>
+            </div>
+            
+            <div class="contact-buttons">
+                <button class="contact-button" id="copy-email-btn">
+                    <img src="images/Icons/email.svg" alt="Email" class="email-icon">
+                    <img src="images/Icons/checkmark.svg" alt="Copied" class="checkmark-icon">
+                    <span>Copy email</span>
+                </button>
+                <a href="https://calendly.com/mahshidmdnn/30min" class="contact-button">
+                    <img src="images/Icons/call.svg" alt="Phone">
+                    <span>Book call</span>
+                </a>
+                <a href="https://www.linkedin.com/in/mahshid-mahmoudian/" target="_blank" class="contact-button">
+                    <img src="images/Icons/linkedin.svg" alt="LinkedIn">
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://www.linkedin.com/in/mahshid-mahmoudian/" target="_blank" class="contact-button">
+                    <img src="images/Icons/dribbble.svg" alt="Dribbble">
+                    <span>Dribbble</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-spacer"></div>
+
+<!-- JavaScript -->
+<script>
+    // Smooth scrolling for all navigation buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all navigation buttons that should use smooth scrolling
+        const smoothScrollButtons = document.querySelectorAll('a[href^="#"]');
+        
+        smoothScrollButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Get the target section ID from the href attribute
+                const targetId = this.getAttribute('href');
+                
+                // Only proceed if the href is not just "#" (which would scroll to top)
+                if(targetId !== '#') {
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        // Calculate position to scroll to (with offset for header)
+                        const headerOffset = 80; // Adjust based on your header height
+                        const targetPosition = targetSection.getBoundingClientRect().top + 
+                                              window.pageYOffset - headerOffset;
+                        
+                        // Perform the smooth scroll
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    });
+
+    // Custom cursor functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const cursor = document.querySelector('.cursor');
+        
+        // Follow the mouse with requestAnimationFrame for smoother movement
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        // Use requestAnimationFrame for smoother cursor movement
+        function updateCursor() {
+            cursor.style.left = `${mouseX}px`;
+            cursor.style.top = `${mouseY}px`;
+            requestAnimationFrame(updateCursor);
+        }
+        requestAnimationFrame(updateCursor);
+        
+        // Make cursor transform when hovering over interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .project-card, .contact-button, .lets-chat-button, .nav-button, .title-icon, .icon-container');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.width = '60px';
+                cursor.style.height = '24px';
+                cursor.style.borderRadius = '12px';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.width = '24px';
+                cursor.style.height = '24px';
+                cursor.style.borderRadius = '50%';
+            });
+        });
+    });
+
+    // Toggle navigation menu
+    const navToggle = document.querySelector('.nav-toggle');
+    const navOverlay = document.querySelector('.nav-overlay');
+    
+    if (navToggle && navOverlay) {
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
+        });
+    }
+
+    // Parallax effect
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elements
+        const heroSection = document.querySelector('.project-hero');
+        const heroImage = document.querySelector('.project-hero-image');
+        const heroImg = document.querySelector('.project-hero-image img');
+        const infoSection = document.querySelector('.project-info');
+        const parallaxContainer = document.querySelector('.parallax-container');
+        
+        // Adjusted timing values
+        const ZOOM_START = 0;        
+        const ZOOM_END = 80;         
+        const FIXED_END = 500;       
+        const INFO_START = 120;      
+        
+        // Set up initial styles
+        document.body.style.position = 'relative';
+        
+        // Style the parallax container to be fixed initially
+        parallaxContainer.style.position = 'fixed';
+        parallaxContainer.style.top = '0';
+        parallaxContainer.style.left = '0';
+        parallaxContainer.style.width = '100%';
+        parallaxContainer.style.height = '100vh';
+        parallaxContainer.style.zIndex = '1';
+        parallaxContainer.style.opacity = '1'; // Start fully visible
+        parallaxContainer.style.transition = 'opacity 0.15s ease-out';
+        
+        // Set initial image zoom
+        heroImg.style.transform = 'scale(1.1)';
+        heroImg.style.transformOrigin = 'center center';
+        heroImg.style.transition = 'transform 0.05s ease-out';
+        
+        // Style info section for initial state (completely hidden, with transparent background)
+        infoSection.style.position = 'relative';
+        infoSection.style.zIndex = '2';
+        infoSection.style.transform = 'translateY(100%)'; // Start fully below viewport
+        infoSection.style.marginTop = '-80px';
+        infoSection.style.background = '#120F0E'; // Dark background for Tembo
+        infoSection.style.transition = 'transform 0.1s ease-out';
+        
+        // Create spacer element
+        const spacer = document.createElement('div');
+        spacer.className = 'parallax-spacer';
+        spacer.style.height = `${FIXED_END + 50}px`;
+        document.body.insertBefore(spacer, document.body.firstChild);
+        
+        // Position the content after the hero+info sections
+        const contentStart = document.querySelector('.project-images');
+        if (contentStart) {
+            contentStart.style.position = 'relative';
+            contentStart.style.zIndex = '3';
+            contentStart.style.marginTop = '50px';
+        }
+        
+        // Scroll handler
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.scrollY;
+            
+            // Handle image zoom effect
+            if (scrollTop <= ZOOM_END) {
+                const zoom = 1.1 - (scrollTop / ZOOM_END * 0.1);
+                heroImg.style.transform = `scale(${zoom})`;
+            } else {
+                heroImg.style.transform = 'scale(1.0)';
+            }
+            
+            // Handle info section slide up effect and fade out hero
+            if (scrollTop >= INFO_START) {
+                // Info section sliding up
+                const progress = Math.min(1, (scrollTop - INFO_START) / 150);
+                const translateY = 100 - (progress * 100);
+                infoSection.style.transform = `translateY(${translateY}%)`;
+                
+                // Hero fade out effect - fade completely when info section is 30% visible
+                const fadeThreshold = 0.3;
+                const opacityValue = progress <= fadeThreshold ? 1 - (progress / fadeThreshold) : 0;
+                parallaxContainer.style.opacity = opacityValue.toString();
+            } else {
+                infoSection.style.transform = 'translateY(100%)';
+                parallaxContainer.style.opacity = '1';
+            }
+            
+            // Release fixed positioning after threshold
+            if (scrollTop >= FIXED_END) {
+                parallaxContainer.style.position = 'absolute';
+                parallaxContainer.style.top = `${FIXED_END}px`;
+            } else {
+                parallaxContainer.style.position = 'fixed';
+                parallaxContainer.style.top = '0';
+            }
+        });
+        
+        // Ensure the page loads at the top
+        window.scrollTo(0, 0);
+    });
+
+    // Contact button functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all contact buttons
+        const contactButtons = document.querySelectorAll('.contact-button');
+        
+        // Add click handlers for regular buttons (excluding copy-email-btn)
+        contactButtons.forEach(button => {
+            if (button.id !== 'copy-email-btn') {
+                // Regular contact buttons
+                button.addEventListener('click', function(e) {
+                    // If it's a link, we only want the visual effect
+                    // but still allow navigation
+                    if (this.tagName === 'A') {
+                        // Don't prevent default - allow navigation
+                        
+                        // Add selected class to this button
+                        this.classList.add('selected');
+                        
+                        // Remove selected class after a delay
+                        setTimeout(() => {
+                            this.classList.remove('selected');
+                        }, 300);
+                    }
+                });
+            }
+        });
+        
+        // Get the Copy Email button specifically
+        const copyEmailButton = document.getElementById('copy-email-btn');
+        
+        if (copyEmailButton) {
+            copyEmailButton.addEventListener('click', function() {
+                // The email to copy
+                const email = 'mahshidmdnn@gmail.com';
+                
+                // Use the modern Clipboard API
+                navigator.clipboard.writeText(email).then(() => {
+                    // Visual feedback - change button appearance
+                    const span = this.querySelector('span');
+                    const originalText = span.textContent;
+                    
+                    // Add the copied class
+                    this.classList.add('copied');
+                    
+                    // Change text
+                    span.textContent = 'Copied!';
+                    
+                    // Reset the button after 1 second
+                    setTimeout(() => {
+                        span.textContent = originalText;
+                        this.classList.remove('copied');
+                    }, 1000);
+                }).catch(err => {
+                    // Fallback for older browsers if the Clipboard API fails
+                    const tempInput = document.createElement('input');
+                    tempInput.value = email;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    
+                    // Visual feedback
+                    const span = this.querySelector('span');
+                    const originalText = span.textContent;
+                    
+                    // Add the copied class
+                    this.classList.add('copied');
+                    
+                    // Change text
+                    span.textContent = 'Copied!';
+                    
+                    // Reset button
+                    setTimeout(() => {
+                        span.textContent = originalText;
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

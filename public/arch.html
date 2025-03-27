@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCH - Portfolio Project</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/projects.css">
+    <link rel="stylesheet" href="css/sections.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom cursor styles */
+
+        body, html {
+            background-color: #ffffff !important;
+
+            cursor: none; /* Hide the default cursor */
+        }
+
+        .cursor {
+    position: fixed;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    transition: width 0.15s ease-out, height 0.15s ease-out, border-radius 0.15s ease-out;
+    will-change: transform, width, height;
+}
+
+/* Make all interactive elements use the custom cursor */
+a, button, .project-card, .contact-button, input, 
+select, textarea, [role="button"], .lets-chat-button,
+.nav-button, .title-icon, .icon-container {
+    cursor: none !important;
+}
+
+/* Duplicate declaration to match other pages */
+body, html {
+    cursor: none;
+}
+        
+        /* Updated project card styles to match homepage */
+        .project-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            width: 100%;
+        }
+        
+        .project-card {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .project-card-image-container {
+            width: 100%;
+            height: 523px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .project-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease;
+        }
+        
+        .project-card:hover .project-card-image {
+            transform: scale(1.05);
+        }
+        
+        .project-card-content {
+            margin-top: 16px;
+        }
+        
+        .project-title-with-icon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .icon-container {
+            position: relative;
+            width: 24px;
+            height: 24px;
+        }
+        
+        .icon-default {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .icon-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .project-card:hover .icon-default {
+            opacity: 0;
+        }
+        
+        .project-card:hover .icon-hover {
+            opacity: 1;
+        }
+        
+        .project-card-title-container {
+            position: relative;
+        }
+        
+        .default-title {
+            opacity: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(0);
+            font-size: var(--font-size-h3);
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .hover-title {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(10px);
+            font-size: var(--font-size-normal);
+            color: var(--color-gray);
+        }
+        
+        .project-card:hover .default-title {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        
+        .project-card:hover .hover-title {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .project-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-card-image-container {
+                height: 400px;
+            }
+        }
+
+
+    /* Make projects-container background transparent on project pages */
+
+    .projects-container {
+        background: transparent !important;
+    }
+    
+    /* Make contact section full width */
+    .contact-section-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    /* Match the contact window width to the projects container width */
+    .contact-window {
+        max-width: none !important;
+        width: 100% !important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Match contact section to homepage */
+.contact-window {
+    background-color: transparent !important; /* Make background transparent like on homepage */
+}
+
+.window-content {
+    padding: 32px !important; /* Match the padding to your homepage (adjust this value as needed) */
+}
+
+/* Fix padding for homepage-style contact buttons */
+.contact-buttons {
+    padding: 0 !important;
+}
+
+/* Ensure contact text styling matches homepage */
+.contact-text {
+    width: auto !important; /* Reset width constraint */
+}
+
+/* Adjusted margins to prevent compound spacing */
+
+/* Projects container - streamlined margins */
+.projects-container {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    max-width: 1600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: auto !important; /* Let it calculate naturally */
+}
+
+/* Fix contact section wrapper - remove excess width calculations */
+.contact-section-wrapper {
+    max-width: 1600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    width: auto !important; /* Let it calculate naturally */
+}
+
+/* Remove any existing negative padding */
+.project-images {
+    padding: 0 !important;
+}
+
+/* Mobile responsiveness with simplified measurements */
+@media (max-width: 768px) {
+    .projects-container, 
+    .contact-section-wrapper {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+    
+    .section-divider {
+        width: calc(100% - 32px) !important;
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<!-- Custom cursor element -->
+<div class="cursor"></div>
+
+<!-- Top Navigation Bar -->
+<div class="top-nav">
+    <a href="index.html" class="nav-logo">
+      <img src="images/logo.svg" alt="Logo">
+    </a>
+    <a href="#contact" class="lets-chat-button">
+      <div class="circle-overlay"></div>
+      <span>Let's chat</span>
+   </a>
+  </div>
+  
+<!-- Floating Navigation Bar -->
+<div class="floating-nav">
+    <a href="javascript:void(0);" class="back-button" onclick="history.back()">
+    <img src="images/back.svg" alt="Back">
+    Back
+  </a>
+    <div class="project-name">Arch</div>
+    <a href="#contact" class="start-project-button">Start project</a>
+  </div>
+
+  <div class="parallax-container">
+
+    <!-- Hero Section with Large Image -->
+    <section class="project-hero">
+        <div class="project-hero-image">
+            <img src="images/arch/header.png" alt="ARCH Project Hero Image">
+        </div>
+        <div class="project-hero-content">
+            <h1>ARCH</h1>
+        </div>
+
+</div>
+
+   <!-- Project Info Section -->
+   <section class="project-info">
+    <div class="project-action-buttons">
+        <button class="action-button">
+            <span class="location-icon"></span>
+            <img src="images/location.svg" alt="Visit" class="button-icon">
+            Texas
+        </button>
+        <a href="https://arch.dev/" target="_blank" class="action-button" style="text-decoration: none; color: inherit;">
+            <span class="visit-icon"></span>
+            <img src="images/external.svg" alt="Visit" class="button-icon">
+            Visit site
+        </a>
+    </div>
+
+    <p class="project-description">
+        Arch is an AI Data Analyst which delivers instant AI business insights where you work.
+    </p>
+    
+    <p class="project-description">
+        At Babco, I led their 2024 rebrand, developing key branding concepts and redesigning both the marketing site and main application interface.
+    </p>
+    
+    <div class="stats-divider"></div>
+    
+    <!-- Project Stats Grid -->
+    <div class="project-stats">
+        <div class="stat-item">
+            <span class="stat-label">Agency</span>
+            <span class="stat-value">BABCO</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Role</span>
+            <span class="stat-value">Creative Lead,<br>Brand designer,<br>Product Designer</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Year</span>
+            <span class="stat-value">2024</span>
+        </div>
+    </div>
+</section>
+
+    <!-- Project Images Grid -->
+    <section class="project-images">
+        <div class="image-grid">
+            <!-- Two column layout -->
+            <div class="grid-row pattern-2">
+                <div class="grid-item">
+                    <img src="images/arch/1.png" alt="ARCH Project Image 2">
+                </div>
+                <div class="grid-item">
+                    <img src="images/arch/2.png" alt="ARCH Project Image 3">
+                </div>
+            </div>
+
+
+            
+            <!-- Full width image -->
+            <div class="grid-row pattern-1">
+                <div class="grid-item">
+                    <img src="images/arch/gif1.gif" alt="ARCH Project Image 1">
+                </div>
+            </div>
+        
+
+            <section class="text-section">
+                <div class="text-section-container">
+                    <div class="text-section-title">
+                        <h2>Brand Identity</h2>
+                    </div>
+                    <div class="text-section-content">
+                        <p>For Arch's rebrand, we introduced the magpie as a symbol of intelligence and adaptability, reflecting the company’s data expertise. The new design balances a sharper, more modern look with friendly illustrations, making the brand feel both dynamic and approachable.</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Two column layout -->
+            <div class="grid-row pattern-2">
+                <div class="grid-item">
+                    <img src="images/arch/3.png" alt="ARCH Project Image 2">
+                </div>
+                <div class="grid-item">
+                    <img src="images/arch/4.png" alt="ARCH Project Image 3">
+                </div>
+            </div>
+            
+            <!-- Full width image -->
+            <div class="grid-row pattern-1">
+                <div class="grid-item">
+                    <img src="images/arch/5.png" alt="ARCH Project Image 4">
+                </div>
+            </div>
+
+            <section class="text-section">
+                <div class="text-section-container">
+                    <div class="text-section-title">
+                        <h2>Interface</h2>
+                    </div>
+                    <div class="text-section-content">
+                        <p>ARch’s interface makes it easy to manage data with built-in tools for organization, collaboration, and scheduling. The knowledge base keeps information structured, while report generation lets users work side by side with AI in a split-screen view to customize details before scheduling. With everything in one place, teams can stay organized without the usual hassle.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Two column layout -->
+            <div class="grid-row pattern-2">
+                <div class="grid-item">
+                    <img src="images/arch/6.png" alt="ARCH Project Image 9">
+                </div>
+                <div class="grid-item">
+                    <img src="images/arch/7.png" alt="ARCH Project Image 10">
+                </div>
+            </div>
+
+            <!-- Full width image -->
+            <div class="grid-row pattern-1">
+                <div class="grid-item">
+                    <img src="images/arch/8.png" alt="ARCH Project Image 8">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="text-section">
+        <div class="text-section-container">
+            <div class="text-section-title">
+                <h2>Marketing site</h2>
+            </div>
+            <div class="text-section-content">
+                <p>ARch’s marketing site was redesigned to feel more inviting and accessible. We introduced a brighter color palette, playful illustrations, and a clearer layout to make complex ideas easier to understand. The result is a site that feels less corporate and more approachable while still reflecting ARch’s expertise.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Two column layout -->
+    <div class="grid-row pattern-2">
+        <div class="grid-item">
+            <img src="images/arch/1.png" alt="ARCH Project Image 9">
+        </div>
+        <div class="grid-item">
+            <img src="images/arch/9.png" alt="ARCH Project Image 10">
+        </div>
+    </div>
+
+
+</section>
+
+
+
+
+    <div class="section-divider"></div>
+
+
+<!-- More Work Section with Homepage Styling -->
+<section class="projects-container">
+    <div class="projects-title-section">
+        <h2 class="section-title">More Work</h2>
+    </div>
+
+      <div class="project-cards">
+        <!-- Project Card 1: Tembo -->
+        <a href="tembo.html" style="text-decoration: none; color: inherit;">
+          <div class="project-card">
+            <div class="project-card-image-container gif-container">
+              <!-- Static image (first frame) -->
+              <img src="images/tembo/card.png" alt="Tembo Product Design" class="project-card-image static-image">
+              <!-- Animated GIF (initially hidden) -->
+              <img src="images/tembo/card.gif" alt="Tembo Product Design" class="project-card-image animated-gif">
+            </div>
+            <div class="project-card-content">
+              <div class="project-title-with-icon">
+                <div class="icon-container">
+                  <div class="icon-default">
+                    <img src="images/icon-b.svg" alt="Arrow" class="title-icon">
+                  </div>
+                  <div class="icon-hover">
+                    <img src="images/icon-w.svg" alt="Arrow" class="title-icon">
+                  </div>
+                </div>
+                <div class="project-card-title-container">
+                  <h3 class="default-title">Tembo</h3>
+                  <span class="hover-title">Product Design</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        
+<!-- Project Card 2: Brandmarch -->
+<a href="brandmarch.html" style="text-decoration: none; color: inherit;">
+    <div class="project-card">
+      <div class="project-card-image-container gif-container">
+        <!-- Static image (first frame) -->
+        <img src="images/bm/card1.png" alt="Brandmarch Product Design" class="project-card-image static-image">
+        <!-- Animated GIF (initially hidden) -->
+        <img src="images/bm/card1.png" alt="Brandmarch Product Design" class="project-card-image animated-gif">
+      </div>
+      <div class="project-card-content">
+        <div class="project-title-with-icon">
+          <div class="icon-container">
+            <div class="icon-default">
+              <img src="images/icon-b.svg" alt="Arrow" class="title-icon">
+            </div>
+            <div class="icon-hover">
+              <img src="images/icon-w.svg" alt="Arrow" class="title-icon">
+            </div>
+          </div>
+          <div class="project-card-title-container">
+            <h3 class="default-title">Brandmarch</h3>
+            <span class="hover-title">Product Design</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+
+
+
+<!-- Contact Section - Window Style -->
+<div class="contact-section-wrapper">
+    <div class="contact-window">
+        <!-- Window Header -->
+        <div class="window-header">
+            <div class="window-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <div class="window-title">contact.txt</div>
+        </div>
+        
+        <!-- Window Content -->
+
+            
+            <div class="window-content">
+                <div class="contact-header">
+                    <!-- Left side: Title -->
+                    <div class="contact-left">
+                        <h3 class="contact-title">Let's chat!</h3>
+                    </div>
+                    
+                    <!-- Right side: Location and text -->
+                    <div class="contact-right">
+                        <div class="contact-location">
+                            <span>Currently in Toronto, Canada (GMT-4)</span>
+                        </div>
+                        <p class="contact-text">
+                            If our coordinates align, let's connect over coffee ☕
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="contact-buttons">
+                    <button class="contact-button" id="copy-email-btn">
+                        <img src="images/Icons/email.svg" alt="Email" class="email-icon">
+                        <img src="images/Icons/checkmark.svg" alt="Copied" class="checkmark-icon">
+                        <span>Copy email</span>
+                    </button>
+                    <a href="https://calendly.com/mahshidmdnn/30min" class="contact-button">
+                        <img src="images/Icons/call.svg" alt="Phone">
+                        <span>Book call</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/mahshid-mahmoudian/" target="_blank" class="contact-button">
+                        <img src="images/Icons/linkedin.svg" alt="LinkedIn">
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/mahshid-mahmoudian/" target="_blank" class="contact-button">
+                        <img src="images/Icons/dribbble.svg" alt="Dribbble">
+                        <span>Dribbble</span>
+                    </a>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+<div class="bottom-spacer"></div>
+
+
+<script>
+    // Custom cursor functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const cursor = document.querySelector('.cursor');
+        
+        // Follow the mouse with requestAnimationFrame for smoother movement
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        // Use requestAnimationFrame for smoother cursor movement
+        function updateCursor() {
+            cursor.style.left = `${mouseX}px`;
+            cursor.style.top = `${mouseY}px`;
+            requestAnimationFrame(updateCursor);
+        }
+        requestAnimationFrame(updateCursor);
+        
+        // Make cursor transform when hovering over interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .project-card, .contact-button, .lets-chat-button, .nav-button, .title-icon, .icon-container');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.width = '60px';
+                cursor.style.height = '24px';
+                cursor.style.borderRadius = '12px';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.width = '24px';
+                cursor.style.height = '24px';
+                cursor.style.borderRadius = '50%';
+            });
+        });
+    });
+
+    // Smooth scrolling for internal links
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all links that have a hash (like #contact)
+        const internalLinks = document.querySelectorAll('a[href^="#"]');
+        
+        internalLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Prevent the default jump-to-anchor behavior
+                e.preventDefault();
+                
+                // Get the target element ID from the href
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    // Calculate position to scroll to (with offset for header if needed)
+                    const headerOffset = 24; // Adjust based on your header height or desired offset
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                    // Smooth scroll to the target element
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+
+    // Parallax effect
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elements
+        const heroSection = document.querySelector('.project-hero');
+        const heroImage = document.querySelector('.project-hero-image');
+        const heroImg = document.querySelector('.project-hero-image img');
+        const infoSection = document.querySelector('.project-info');
+        const parallaxContainer = document.querySelector('.parallax-container');
+        
+        // Adjusted timing values
+        const ZOOM_START = 0;        
+        const ZOOM_END = 80;         
+        const FIXED_END = 500;       
+        const INFO_START = 120;      
+        
+        // Set up initial styles
+        document.body.style.position = 'relative';
+        
+        // Style the parallax container to be fixed initially
+        parallaxContainer.style.position = 'fixed';
+        parallaxContainer.style.top = '0';
+        parallaxContainer.style.left = '0';
+        parallaxContainer.style.width = '100%';
+        parallaxContainer.style.height = '100vh';
+        parallaxContainer.style.zIndex = '1';
+        parallaxContainer.style.opacity = '1'; // Start fully visible
+        parallaxContainer.style.transition = 'opacity 0.15s ease-out';
+        
+        // Set initial image zoom
+        heroImg.style.transform = 'scale(1.1)';
+        heroImg.style.transformOrigin = 'center center';
+        heroImg.style.transition = 'transform 0.05s ease-out';
+        
+        // Style info section for initial state (completely hidden, with transparent background)
+        infoSection.style.position = 'relative';
+        infoSection.style.zIndex = '2';
+        infoSection.style.transform = 'translateY(100%)'; // Start fully below viewport
+        infoSection.style.marginTop = '-80px';
+        infoSection.style.background = 'transparent'; // Transparent background
+        infoSection.style.transition = 'transform 0.1s ease-out';
+        
+        // Create spacer element
+        const spacer = document.createElement('div');
+        spacer.className = 'parallax-spacer';
+        spacer.style.height = `${FIXED_END + 50}px`;
+        document.body.insertBefore(spacer, document.body.firstChild);
+        
+        // Position the content after the hero+info sections
+        const contentStart = document.querySelector('.project-images');
+        if (contentStart) {
+            contentStart.style.position = 'relative';
+            contentStart.style.zIndex = '3';
+            contentStart.style.marginTop = '50px';
+        }
+        
+        // Scroll handler
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.scrollY;
+            
+            // Handle image zoom effect
+            if (scrollTop <= ZOOM_END) {
+                const zoom = 1.1 - (scrollTop / ZOOM_END * 0.1);
+                heroImg.style.transform = `scale(${zoom})`;
+            } else {
+                heroImg.style.transform = 'scale(1.0)';
+            }
+            
+            // Handle info section slide up effect and fade out hero
+            if (scrollTop >= INFO_START) {
+                // Info section sliding up
+                const progress = Math.min(1, (scrollTop - INFO_START) / 150);
+                const translateY = 100 - (progress * 100);
+                infoSection.style.transform = `translateY(${translateY}%)`;
+                
+                // Hero fade out effect - fade completely when info section is 30% visible
+                const fadeThreshold = 0.3;
+                const opacityValue = progress <= fadeThreshold ? 1 - (progress / fadeThreshold) : 0;
+                parallaxContainer.style.opacity = opacityValue.toString();
+            } else {
+                infoSection.style.transform = 'translateY(100%)';
+                parallaxContainer.style.opacity = '1';
+            }
+            
+            // Release fixed positioning after threshold
+            if (scrollTop >= FIXED_END) {
+                parallaxContainer.style.position = 'absolute';
+                parallaxContainer.style.top = `${FIXED_END}px`;
+            } else {
+                parallaxContainer.style.position = 'fixed';
+                parallaxContainer.style.top = '0';
+            }
+        });
+        
+        // Ensure the page loads at the top
+        window.scrollTo(0, 0);
+    });
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all contact buttons
+    const contactButtons = document.querySelectorAll('.contact-button');
+    
+    // Add click handlers for regular buttons (excluding copy-email-btn)
+    contactButtons.forEach(button => {
+        if (button.id !== 'copy-email-btn') {
+            // Regular contact buttons
+            button.addEventListener('click', function(e) {
+                // If it's a link, we only want the visual effect
+                // but still allow navigation
+                if (this.tagName === 'A') {
+                    // Don't prevent default - allow navigation
+                    
+                    // Add selected class to this button
+                    this.classList.add('selected');
+                    
+                    // Remove selected class after a delay
+                    setTimeout(() => {
+                        this.classList.remove('selected');
+                    }, 300);
+                }
+            });
+        }
+    });
+    
+    // Get the Copy Email button specifically
+    const copyEmailButton = document.getElementById('copy-email-btn');
+    
+    if (copyEmailButton) {
+        copyEmailButton.addEventListener('click', function() {
+            // The email to copy
+            const email = 'mahshidmdnn@gmail.com';
+            
+            // Use the modern Clipboard API
+            navigator.clipboard.writeText(email).then(() => {
+                // Visual feedback - change button appearance
+                const span = this.querySelector('span');
+                const originalText = span.textContent;
+                
+                // Add the copied class
+                this.classList.add('copied');
+                
+                // Change text
+                span.textContent = 'Copied!';
+                
+                // Reset the button after 2 seconds
+                setTimeout(() => {
+                    span.textContent = originalText;
+                    this.classList.remove('copied');
+                }, 1000);
+            }).catch(err => {
+                // Fallback for older browsers if the Clipboard API fails
+                const tempInput = document.createElement('input');
+                tempInput.value = email;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                // Visual feedback
+                const span = this.querySelector('span');
+                const originalText = span.textContent;
+                
+                // Add the copied class
+                this.classList.add('copied');
+                
+                // Change text
+                span.textContent = 'Copied!';
+                
+                // Reset button
+                setTimeout(() => {
+                    span.textContent = originalText;
+                    this.classList.remove('copied');
+                }, 2000);
+            });
+        });
+    }
+});
+
+
+
+</script>
+
+</body>
+</html>

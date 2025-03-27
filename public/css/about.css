@@ -1,0 +1,406 @@
+/* about.css - Styles for the About page */
+
+:root {
+    --color-background: #ededed;
+}
+
+/* Page Background */
+body {
+    background-color: #ededed !important;
+}
+html {
+    background-color: #ededed !important;
+}
+
+[data-scroll-container] {
+    background-color: #ededed !important;
+    overflow: hidden;
+}
+
+/* Noise Overlay */
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('noise.png');
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* First Section - About Intro */
+.about-intro {
+    width: 100%;
+    height: 630px;
+    max-width: var(--container-max);
+    margin: 100px auto 0;
+    padding: 0 88px;
+    position: relative;
+}
+
+.two-column-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0 auto;
+    gap: 120px;
+    max-width: 1200px;
+}
+
+.left-column {
+    width: 460px;
+    height: 630px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-primary);
+    gap: 16px;
+    position: relative;
+}
+
+.left-column h1 {
+    font-size: 45px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-primary);
+    margin-bottom: 0px;
+}
+
+.left-column .subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+}
+
+.about-text {
+    display: flex;
+    flex-direction: column;
+    color: var(--color-primary);
+}
+
+.about-text p {
+    font-size: 18px;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+.about-text p:last-child {
+    margin-bottom: 0;
+}
+
+.about-text .highlight {
+    font-weight: 500;
+}
+
+.right-column {
+    width: 647px;
+    height: 630px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+/* Skills Tags */
+.skills-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.skill-tag {
+    display: inline-flex;
+    padding: 8px 16px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    font-size: var(--font-size-sub);
+    font-weight: 400;
+    color: var(--color-primary);
+}
+
+/* About Goals Section */
+.about-goals {
+    width: 100%;
+    height: 550px;
+    max-width: var(--container-max);
+    margin: 80px auto 0;
+    padding: 0 88px;
+    position: relative;
+}
+
+/* Fix alignment of columns in second section */
+.about-goals .two-column-container {
+    align-items: flex-start;
+    padding-top: 40px;
+}
+
+/* Fix left column in second section */
+.about-goals .left-column {
+    height: auto;
+    justify-content: flex-start;
+    padding-top: 0;
+}
+
+/* Fix right column in second section */
+.about-goals .right-column {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 0;
+}
+
+/* Fix "Current goal" heading placement */
+.about-goals h2 {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 0 0 16px 0;
+    padding: 0;
+    line-height: 1.2;
+    align-self: flex-start;
+}
+
+/* Adjust paragraph spacing in the second section */
+.about-goals .about-text {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.about-goals .about-text p {
+    margin-bottom: 16px;
+}
+
+.about-goals .about-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* Fix image container in second section */
+.about-secondary-image {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.about-secondary-image img {
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Second Section - Skills */
+.about-skills {
+    margin-top: 8px;
+    position: relative;
+    background-image: url('bg.png');
+    padding: var(--spacing-2xl) 0;
+    background-size: 150%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.skills-title {
+    margin-bottom: var(--spacing-2xl);
+    text-align: center;
+}
+
+.skills-title .section-title {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-h4);
+    font-weight: 700;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+}
+
+.skills-content {
+    margin-top: 74px;
+    position: relative;
+}
+
+/* First row with soft and hard skills */
+.skills-row-1 {
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 190px;
+    perspective: 1000px;
+}
+
+/* Card rotation */
+.skills-row-1 img:first-child {
+    transform: rotate(-8deg);
+}
+
+.skills-row-1 img:last-child {
+    transform: rotate(8deg);
+}
+
+/* Experience card in second row */
+.skills-row-2 {
+    height: 662px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 74px;
+    position: relative; /* For positioning the button */
+}
+
+.skills-cta-button {
+    position: absolute;
+    bottom: 68px;
+    left: 67%;
+    transform: translateX(-50%);
+    padding: 16px 16px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 0px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between icon and text */
+}
+
+.skills-cta-button .button-icon {
+    width: 20px;
+    height: 20px;
+    stroke: white; /* Ensure icon color matches button text */
+}
+
+.skills-cta-button:hover {
+    background-color: #000DB3; /* Darker shade for hover effect */
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .about-intro,
+    .about-goals {
+        padding: 0 60px;
+    }
+
+    .left-column {
+        width: 400px;
+    }
+
+    .right-column {
+        width: 550px;
+    }
+
+    .left-column h1 {
+        font-size: calc(var(--font-size-h2) * 0.9);
+    }
+    
+    .about-goals h2 {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 992px) {
+    .two-column-container {
+        gap: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-intro,
+    .about-goals {
+        height: auto;
+        padding: 40px 20px;
+        margin-top: 60px;
+    }
+
+    .two-column-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .left-column, 
+    .right-column {
+        width: 100%;
+        height: auto;
+    }
+    
+    .about-goals .two-column-container {
+        padding-top: 20px;
+    }
+    
+    .about-goals h2 {
+        font-size: 32px;
+        margin-bottom: 12px;
+    }
+
+    .skills-tags {
+        justify-content: center;
+    }
+
+    .skills-row-1 {
+        flex-direction: column;
+        height: auto;
+        gap: 40px;
+    }
+
+    .skills-row-2 {
+        height: auto;
+        margin-top: 40px;
+    }
+    
+    .skills-cta-button {
+        bottom: 30px;
+        left: 50%;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .skills-cta-button .button-icon {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+
+/* Add this to your about.css file or inline styles */
+
+/* Override contact text alignment specifically for the about page */
+.about-page .contact-text {
+    width: 80%; /* Change from 35% to match homepage */
+    margin-left: auto; /* Push to right edge */
+}
+
+.about-page .contact-location {
+    line-height: 1.2; /* Fix line height */
+    margin-bottom: 8px; /* Add spacing between location and coffee text */
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+    .about-page .contact-text {
+        width: 100%;
+        margin-left: 0;
+    }
+}

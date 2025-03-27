@@ -1,0 +1,1078 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/projects.css">
+
+    <style>
+        /* Custom cursor styles */
+        body, html {
+            cursor: none; /* Hide the default cursor */
+            background-color: var(--color-homebg) !important;
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10+ */
+            user-select: none; /* Standard syntax */
+        }
+        
+        .cursor {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            background-color: white;
+            transform: translate(-50%, -50%);
+            transition: width 0.15s ease-out, height 0.15s ease-out, border-radius 0.15s ease-out;
+            will-change: transform, width, height;
+        }
+        
+        /* Make all interactive elements use the custom cursor */
+        a, button, .project-card, .contact-button, input, 
+        select, textarea, [role="button"], .lets-chat-button,
+        .nav-button, .title-icon, .icon-container,
+        .draggable-window, .draggable-icon, .window-header,
+        .window-content, .window-buttons {
+            cursor: none !important;
+        }
+        
+        /* Ensure content inside draggable elements also uses custom cursor */
+        .draggable-window *,
+        .draggable-icon * {
+            cursor: none !important;
+        }
+        
+        /* Prevent cursor from changing during drag operations */
+        .dragging {
+            cursor: none !important;
+        }
+        
+        /* Adjusted window content padding */
+        .draggable-window .window-content {
+            padding: 16px; /* Reduced padding */
+        }
+        
+        /* Specific padding for hello-window text */
+        #hello-window .window-content p {
+            margin: 2px 0; /* Reduced vertical margin for text */
+            margin-bottom: 24px; /* Increase bottom margin for text */
+        }
+        
+        /* Adjust button spacing */
+        #hello-window .window-buttons {
+            margin-top: 18px; /* Adjusted from original value */
+        }
+        
+        /* Different padding for image windows */
+        #hello-image-1 .window-content {
+            padding: 8px; /* Smaller padding for image windows */
+        }
+        
+        /* Animation keyframes for navigation */
+        @keyframes navPopIn {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            70% {
+                transform: translateY(10px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes navPopOut {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+        }
+        
+        /* Icon click feedback */
+        .draggable-icon.clicked {
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+  
+<body class="homepage">
+    <!-- Custom cursor element -->
+    <div class="cursor"></div>
+
+    <!-- Navigation -->
+    <header>
+        <div class="top-nav">
+            <a href="index.html" class="nav-logo">
+                <img src="images/logo.svg" alt="Logo">
+            </a>
+            <a href="#contact" class="lets-chat-button">
+                <div class="circle-overlay"></div>
+                <span>Let's chat</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Draggable Container -->
+    <div class="draggable-container">
+        <div class="background-title">
+            <img src="images/Icons/mashup.svg" alt="Mashup Studio" class="site-title-svg">
+        </div>
+
+        <!-- Text window -->
+        <div class="draggable-window plain" id="hello-window">
+            <div class="window-header">
+                <div class="window-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <div class="window-title">hello.txt</div>
+            </div>
+            <div class="window-content">
+                <p>Hey! I'm Mahshid. I'm a Multidisciplinary Designer.</p>
+                <p>Exploring the world of technology and AI.</p>
+                <div class="window-buttons">
+                    <button class="window-button">Email</button>
+                    <button class="window-button">LinkedIn</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- First image window -->
+        <div class="draggable-window plain" id="hello-image-1">
+            <div class="window-header">
+                <div class="window-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <div class="window-title">hello.png</div>
+            </div>
+            <div class="window-content">
+                <img src="images/img.png" alt="Profile Image">
+            </div>
+        </div>
+
+        <!-- Add this right after the hello-image-1 window in your HTML -->
+<div class="draggable-window" id="overlay-window">
+    <div class="window-header">
+        <div class="window-dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+        <div class="window-title">overlay.png</div>
+    </div>
+    <div class="window-content">
+        <div class="overlay-image-container">
+            <!-- Use the same image as your background but with a different filter/effect -->
+            <img src="images/bg-mask.png" alt="Overlay Image">
+        </div>
+    </div>
+</div>
+        
+        <!-- Draggable Icons -->
+        <div class="draggable-icon" id="work-icon">
+            <div class="icon-img">
+                <img src="images/png/work.png" alt="Work">
+            </div>
+            <span class="icon-label">Work</span>
+        </div>
+        
+        <div class="draggable-icon" id="about-icon">
+            <div class="icon-img">
+                <img src="images/png/me.png" alt="About me">
+            </div>
+            <span class="icon-label">About me</span>
+        </div>
+        
+        <div class="draggable-icon" id="chat-icon">
+            <div class="icon-img">
+                <img src="images/png/chat.png" alt="Let's chat">
+            </div>
+            <span class="icon-label">Let's chat</span>
+        </div>
+    </div>
+    
+    <!-- Projects Container -->
+    <div class="projects-container">
+        <!-- Section title before projects -->
+        <div id="work" class="projects-title-section">
+            <h2 class="section-title">Featured work</h2>
+        </div>
+
+        <div class="project-cards">
+            <!-- Project Card 1: Arch -->
+            <a href="arch.html" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-card-image-container gif-container">
+                        <img src="images/arch/card.png" alt="Arch Product Design" class="project-card-image static-image">
+                        <img src="images/arch/card.gif" alt="Arch Product Design" class="project-card-image animated-gif">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-title-with-icon">
+                            <div class="icon-container">
+                                <div class="icon-default">
+                                    <img src="images/icon-b.svg" alt="Arrow" class="title-icon">
+                                </div>
+                                <div class="icon-hover">
+                                    <img src="images/icon-w.svg" alt="Arrow" class="title-icon">
+                                </div>
+                            </div>
+                            <div class="project-card-title-container">
+                                <h3 class="default-title">ARCH</h3>
+                                <span class="hover-title">Product Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Project Card 2: Tembo -->
+            <a href="tembo.html" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-card-image-container gif-container">
+                        <img src="images/tembo/card.png" alt="Tembo Product Design" class="project-card-image static-image">
+                        <img src="images/tembo/card.gif" alt="Tembo Product Design" class="project-card-image animated-gif">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-title-with-icon">
+                            <div class="icon-container">
+                                <div class="icon-default">
+                                    <img src="images/icon-b.svg" alt="Arrow" class="title-icon">
+                                </div>
+                                <div class="icon-hover">
+                                    <img src="images/icon-w.svg" alt="Arrow" class="title-icon">
+                                </div>
+                            </div>
+                            <div class="project-card-title-container">
+                                <h3 class="default-title">Tembo</h3>
+                                <span class="hover-title">Product Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Project Card 3: Brandmarch -->
+            <a href="brandmarch.html" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-card-image-container gif-container">
+                        <img src="images/bm/card1.png" alt="Brandmarch Product Design" class="project-card-image static-image">
+                        <img src="images/bm/card1.png" alt="Brandmarch Product Design" class="project-card-image animated-gif">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-title-with-icon">
+                            <div class="icon-container">
+                                <div class="icon-default">
+                                    <img src="images/icon-b.svg" alt="Arrow" class="title-icon">
+                                </div>
+                                <div class="icon-hover">
+                                    <img src="images/icon-w.svg" alt="Arrow" class="title-icon">
+                                </div>
+                            </div>
+                            <div class="project-card-title-container">
+                                <h3 class="default-title">Brandmarch</h3>
+                                <span class="hover-title">Product Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Project Card 4: SQLite -->
+            <a href="sqlite.html" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-card-image-container gif-container">
+                        <img src="images/sqlite/card1.png" alt="SQLite Product Design" class="project-card-image static-image">
+                        <img src="images/sqlite/card.gif" alt="SQLite Product Design" class="project-card-image animated-gif">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-title-with-icon">
+                            <div class="icon-container">
+                                <div class="icon-default">
+                                    <img src="images/icon-b.svg" alt="Arrow" class="title-icon">
+                                </div>
+                                <div class="icon-hover">
+                                    <img src="images/icon-w.svg" alt="Arrow" class="title-icon">
+                                </div>
+                            </div>
+                            <div class="project-card-title-container">
+                                <h3 class="default-title">SQLite</h3>
+                                <span class="hover-title">Product Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Project Card 5: Descript -->
+            <a href="descript.html" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-card-image-container gif-container">
+                        <img src="images/descript/card.png" alt="Descript Product Design" class="project-card-image static-image">
+                        <img src="images/descript/card.png" alt="Descript Product Design" class="project-card-image animated-gif">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-title-with-icon">
+                            <div class="icon-container">
+                                <div class="icon-default">
+                                    <img src="images/icon-b.svg" alt="Arrow" class="title-icon">
+                                </div>
+                                <div class="icon-hover">
+                                    <img src="images/icon-w.svg" alt="Arrow" class="title-icon">
+                                </div>
+                            </div>
+                            <div class="project-card-title-container">
+                                <h3 class="default-title">Descript</h3>
+                                <span class="hover-title">Product Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Project Card 6: CommandFreak -->
+            <a href="#" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-card-image-container gif-container">
+                        <img src="images/CF/card.png" alt="CommandFreak Product Design" class="project-card-image static-image">
+                        <img src="images/CF/card1.png" alt="CommandFreak Product Design" class="project-card-image animated-gif">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-title-with-icon">
+                            <div class="icon-container">
+                                <div class="icon-default">
+                                    <img src="images/icon-b.svg" alt="Arrow" class="title-icon">
+                                </div>
+                                <div class="icon-hover">
+                                    <img src="images/icon-w.svg" alt="Arrow" class="title-icon">
+                                </div>
+                            </div>
+                            <div class="project-card-title-container">
+                                <h3 class="default-title">CommandFreak</h3>
+                                <span class="hover-title">Product Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+        
+    <!-- Design Reflections Section -->
+    <div class="projects-container">
+        <div id="design-reflections" class="projects-title-section">
+            <h2 class="section-title">Design reflections</h2>
+        </div>
+    
+        <div class="reflection-card-container">
+            <a href="AI.html" class="reflection-card">
+                <div class="reflection-card-image">
+                    <img src="images/Icons/ai.jpg" alt="Design Reflections">
+                </div>
+                <div class="reflection-card-content">
+                    <h3 class="reflection-card-title">Rethinking UI</h3>
+                    <p class="reflection-card-description">A Designer's perspective on how UI is changing and what it means for design</p>
+                    <div class="reflection-card-date">Feb 02, 2025</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+<!-- Contact Section - Window Style -->
+<div class="contact-section-wrapper" id="contact">
+    <div class="contact-window">
+        <!-- Window Header -->
+        <div class="window-header">
+            <div class="window-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <div class="window-title">contact.txt</div>
+        </div>
+        
+        <!-- Window Content -->
+        <div class="window-content">
+            <div class="contact-header">
+                <!-- Left side: Title -->
+                <div class="contact-left">
+                    <h3 class="contact-title">Let's chat!</h3>
+                </div>
+                
+                <!-- Right side: Location and text -->
+                <div class="contact-right">
+                    <div class="contact-location">
+                        <span>Currently in Toronto, Canada (GMT-4)</span>
+                    </div>
+                    <p class="contact-text">
+                        If our coordinates align, let's connect over coffee ☕
+                    </p>
+                </div>
+            </div>
+            
+            <div class="contact-buttons">
+                <button class="contact-button" id="copy-email-btn">
+                    <img src="images/Icons/email.svg" alt="Email" class="email-icon">
+                    <img src="images/Icons/checkmark.svg" alt="Copied" class="checkmark-icon">
+                    <span>Copy email</span>
+                </button>
+                <a href="tel:+1234567890" class="contact-button">
+                    <img src="images/Icons/call.svg" alt="Phone">
+                    <span>Book call</span>
+                </a>
+                <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="contact-button">
+                    <img src="images/Icons/linkedin.svg" alt="LinkedIn">
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://dribbble.com/yourprofile" target="_blank" class="contact-button">
+                    <img src="images/Icons/dribbble.svg" alt="Dribbble">
+                    <span>Dribbble</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <div class="bottom-spacer"></div>
+
+
+<!-- External Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.17/interact.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+
+<script src="js/mobile-fix.js"></script>
+
+
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+    // Center the hello window initially
+    const centerHelloWindow = function() {
+        const helloWindow = document.getElementById('hello-window');
+        const container = document.querySelector('.draggable-container');
+        
+        if (helloWindow && container) {
+            // Get container dimensions
+            const containerRect = container.getBoundingClientRect();
+            
+            // Calculate center position
+            const centerX = containerRect.width / 2 - helloWindow.offsetWidth / 2;
+            const centerY = containerRect.height / 2 - helloWindow.offsetHeight / 2;
+            
+            // Position the window using absolute positioning
+            helloWindow.style.left = centerX + 'px';
+            helloWindow.style.top = centerY + 'px';
+            
+            // Remove any transforms or margins that might interfere
+            helloWindow.style.transform = 'none';
+            helloWindow.style.margin = '0';
+        }
+    };
+    
+    // Call once on page load
+    centerHelloWindow();
+    
+    // Top navigation appearance on scroll
+    const topNav = document.querySelector('.top-nav');
+    const projectsSection = document.querySelector('.projects-title-section');
+    
+    // Hide nav initially
+    topNav.style.transform = 'translateY(-100%)';
+    topNav.style.opacity = '0';
+    
+    // Track if the nav is currently visible
+    let navVisible = false;
+    
+    window.addEventListener('scroll', function() {
+        const projectsPosition = projectsSection.getBoundingClientRect().top;
+        
+        if (projectsPosition <= 0 && !navVisible) {
+            // Play the animation only when transitioning from hidden to visible
+            navVisible = true;
+            
+            // Reset any existing animations
+            topNav.style.animation = 'none';
+            // Trigger reflow
+            void topNav.offsetWidth;
+            
+            // Apply the pop-in animation
+            topNav.style.animation = 'navPopIn 0.7s cubic-bezier(0.17, 0.67, 0.28, 1.25) forwards';
+        } else if (projectsPosition > 0 && navVisible) {
+            // Hide the nav when scrolling back up
+            navVisible = false;
+            
+            // Reset any existing animations
+            topNav.style.animation = 'none';
+            // Trigger reflow
+            void topNav.offsetWidth;
+            
+            // Apply the pop-out animation
+            topNav.style.animation = 'navPopOut 0.5s ease forwards';
+        }
+    });
+    
+    // Initialize draggable functionality for windows
+    interact('.plain').draggable({
+        inertia: true,
+        modifiers: [
+            interact.modifiers.restrictRect({
+                restriction: 'parent',
+                endOnly: true
+            })
+        ],
+        autoScroll: true,
+        
+        listeners: {
+            start(event) {
+                // Add dragging class
+                event.target.classList.add('dragging');
+                
+                // Bring window to front
+                const zIndex = getHighestZIndex() + 1;
+                event.target.style.zIndex = zIndex;
+            },
+            
+            move(event) {
+                const target = event.target;
+                
+                // Get current position
+                let x = parseFloat(target.getAttribute('data-x')) || 0;
+                let y = parseFloat(target.getAttribute('data-y')) || 0;
+                
+                // Update position
+                x += event.dx;
+                y += event.dy;
+                
+                // Apply translation
+                target.style.transform = `translate(${x}px, ${y}px)`;
+                
+                // Store updated position
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+            },
+            
+            end(event) {
+                // Remove dragging class
+                event.target.classList.remove('dragging');
+            }
+        }
+    });
+
+    // For icons - more responsive with no inertia
+    interact('.draggable-icon').draggable({
+        inertia: false,
+        modifiers: [
+            interact.modifiers.restrictRect({
+                restriction: 'parent',
+                endOnly: true
+            })
+        ],
+        autoScroll: true,
+        
+        listeners: {
+            start(event) {
+                event.target.classList.add('dragging');
+                const zIndex = getHighestZIndex() + 1;
+                event.target.style.zIndex = zIndex;
+                event.target.style.transition = 'none';
+            },
+            move(event) {
+                const target = event.target;
+                const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                target.style.transform = `translate(${x}px, ${y}px)`;
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+            },
+            end(event) {
+                event.target.classList.remove('dragging');
+                event.target.style.transition = '';
+            }
+        }
+    });
+    
+    // Add double-click handler to the chat icon
+    const chatIcon = document.getElementById('chat-icon');
+    if (chatIcon) {
+        chatIcon.addEventListener('dblclick', function(e) {
+            e.preventDefault();
+            
+            // Find the contact section
+            const contactSection = document.querySelector('.contact-section-wrapper');
+            
+            if (contactSection) {
+                // Calculate position to scroll to (with offset for header)
+                const headerOffset = 80; // Adjust based on your header height
+                const targetPosition = contactSection.getBoundingClientRect().top + 
+                                    window.pageYOffset - headerOffset;
+                
+                // Perform the smooth scroll
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+        
+        // Optional: Add a visual indicator that the chat icon is double-clickable
+        chatIcon.addEventListener('click', function(e) {
+            // Add a subtle animation on single click to hint at double-click functionality
+            chatIcon.classList.add('clicked');
+            
+            // Remove the class after the animation completes
+            setTimeout(() => {
+                chatIcon.classList.remove('clicked');
+            }, 300);
+        });
+    }
+
+    // Add click handler for the work icon
+    const workIcon = document.getElementById('work-icon');
+    if (workIcon) {
+        workIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Find the work section
+            const workSection = document.querySelector('#work');
+            
+            if (workSection) {
+                // Calculate position to scroll to (with offset for header)
+                const headerOffset = 80; // Adjust based on your header height
+                const targetPosition = workSection.getBoundingClientRect().top + 
+                                    window.pageYOffset - headerOffset;
+                
+                // Perform the smooth scroll
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Visual feedback
+            workIcon.classList.add('clicked');
+            
+            // Remove the class after the animation completes
+            setTimeout(() => {
+                workIcon.classList.remove('clicked');
+            }, 300);
+        });
+    }
+    
+    // Icon selection and click handling
+    let selectedIcon = null;
+    const icons = document.querySelectorAll('.draggable-icon');
+    
+    icons.forEach(icon => {
+        // Single click selects the icon
+        icon.addEventListener('click', function(e) {
+            if (this.classList.contains('dragging')) return;
+            
+            if (selectedIcon) {
+                selectedIcon.classList.remove('selected');
+            }
+            
+            if (selectedIcon !== this) {
+                this.classList.add('selected');
+                selectedIcon = this;
+            } else {
+                selectedIcon = null;
+            }
+            
+            e.preventDefault();
+        });
+        
+        // Double-click navigates
+        icon.addEventListener('dblclick', function(e) {
+            if (this.classList.contains('dragging')) return;
+            
+            const iconId = this.id;
+            if (iconId === 'work-icon') {
+                window.location.href = '#work';
+            } else if (iconId === 'about-icon') {
+                window.location.href = 'about.html';
+            } else if (iconId === 'chat-icon') {
+                window.location.href = '#contact';
+            }
+        });
+    });
+    
+    // Window button handling
+    document.querySelectorAll('.window-button').forEach(button => {
+        button.addEventListener('mousedown', function(e) {
+            e.stopPropagation();
+        });
+        
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            const buttonText = this.textContent.trim();
+            if (buttonText === 'Email') {
+                window.location.href = 'mailto:mahshidmdnn@gmail.com';
+            } else if (buttonText === 'LinkedIn') {
+                window.open('https://www.linkedin.com/in/yourprofile', '_blank');
+            }
+        });
+    });
+    
+
+    
+    // Smooth scrolling for all navigation buttons
+    const smoothScrollButtons = document.querySelectorAll('a[href^="#"]');
+    
+    smoothScrollButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Get the target section ID from the href attribute
+            const targetId = this.getAttribute('href');
+            
+            // Only proceed if the href is not just "#" (which would scroll to top)
+            if(targetId !== '#') {
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    // Calculate position to scroll to (with offset for header)
+                    const headerOffset = 80; // Adjust based on your header height
+                    const targetPosition = targetSection.getBoundingClientRect().top + 
+                                        window.pageYOffset - headerOffset;
+                    
+                    // Perform the smooth scroll
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
+    
+    // Custom cursor functionality
+    const cursor = document.querySelector('.cursor');
+    
+    if (cursor) {
+        // Follow the mouse with requestAnimationFrame for smoother movement
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        // Use requestAnimationFrame for smoother cursor movement
+        function updateCursor() {
+            cursor.style.left = `${mouseX}px`;
+            cursor.style.top = `${mouseY}px`;
+            requestAnimationFrame(updateCursor);
+        }
+        requestAnimationFrame(updateCursor);
+        
+        // Make cursor transform when hovering over interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .project-card, .contact-button, .lets-chat-button, .nav-button, .title-icon, .icon-container, .draggable-window, .window-header');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.width = '60px';
+                cursor.style.height = '24px';
+                cursor.style.borderRadius = '12px';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.width = '24px';
+                cursor.style.height = '24px';
+                cursor.style.borderRadius = '50%';
+            });
+        });
+    }
+    
+    // Fallback for browsers that don't support CSS scroll-driven animations
+    if (!CSS.supports('animation-timeline: view()')) {
+        console.log("Using JS fallback for scroll animations");
+        
+        // Initialize GSAP ScrollTrigger if available
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Apply similar clip-path animation to the title
+            gsap.fromTo('.projects-title-section', 
+                { 
+                    opacity: 0,
+                    clipPath: 'inset(100% 100% 0% 0%)' 
+                },
+                { 
+                    scrollTrigger: {
+                        trigger: '.projects-title-section',
+                        start: 'top 75%',
+                        end: 'top 10%',
+                        scrub: true
+                    },
+                    opacity: 1,
+                    clipPath: 'inset(0% 0% 0% 0%)',
+                    duration: 1.2
+                }
+            );
+            
+            // Apply to each project card
+            document.querySelectorAll('.project-card').forEach(card => {
+                gsap.fromTo(card, 
+                    { 
+                        opacity: 0,
+                        clipPath: 'inset(100% 100% 0% 0%)' 
+                    },
+                    { 
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 90%',
+                            end: 'top 60%',
+                            scrub: true
+                        },
+                        opacity: 1,
+                        clipPath: 'inset(0% 0% 0% 0%)',
+                        duration: 1
+                    }
+                );
+            });
+        } else {
+            // If GSAP is not available, use IntersectionObserver as fallback
+            const elements = document.querySelectorAll('.projects-title-section, .project-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.clipPath = 'inset(0 0 0 0)';
+                        // Stop observing once animation is triggered
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Set initial styles and start observing
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.clipPath = 'inset(100% 100% 0 0)';
+                el.style.transition = 'opacity 0.8s ease, clip-path 0.8s ease';
+                observer.observe(el);
+            });
+        }
+    }
+    
+    // Handle email copy functionality
+    const copyEmailButton = document.getElementById('copy-email-btn');
+
+    if (copyEmailButton) {
+        copyEmailButton.addEventListener('click', function() {
+            // The email to copy
+            const email = 'mahshidmdnn@gmail.com';
+            
+            // Use the modern Clipboard API
+            navigator.clipboard.writeText(email).then(() => {
+                // Visual feedback - change button appearance
+                const span = this.querySelector('span');
+                const originalText = span.textContent;
+                
+                // Add the copied class
+                this.classList.add('copied');
+                
+                // Change text
+                span.textContent = 'Copied!';
+                
+                // Reset the button after 1 second
+                setTimeout(() => {
+                    span.textContent = originalText;
+                    this.classList.remove('copied');
+                }, 1500);
+            }).catch(err => {
+                // Fallback for older browsers if the Clipboard API fails
+                const tempInput = document.createElement('input');
+                tempInput.value = email;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                // Visual feedback
+                const span = this.querySelector('span');
+                const originalText = span.textContent;
+                
+                // Add the copied class
+                this.classList.add('copied');
+                
+                // Change text
+                span.textContent = 'Copied!';
+                
+                // Reset button
+                setTimeout(() => {
+                    span.textContent = originalText;
+                    this.classList.remove('copied');
+                }, 1500);
+            });
+        });
+    }
+
+    // Add click handlers for the other contact buttons
+    document.querySelectorAll('.contact-button:not(#copy-email-btn)').forEach(button => {
+        button.addEventListener('click', function() {
+            // Add selected class to this button
+            this.classList.add('selected');
+            
+            // Remove selected class from all other buttons
+            document.querySelectorAll('.contact-button.selected').forEach(selectedBtn => {
+                if (selectedBtn !== this) {
+                    selectedBtn.classList.remove('selected');
+                }
+            });
+            
+            // For links, we still want navigation to happen
+            // But remove selected state after a delay if it's not being maintained elsewhere
+            if (this.tagName === 'A') {
+                // Keep the visual feedback for a moment
+                setTimeout(() => {
+                    this.classList.remove('selected');
+                }, 300);
+            }
+        });
+    });
+    
+    // Call the overlay window initialization at the end of the document ready function
+    initializeOverlayWindow();
+});
+
+// Define the initializeOverlayWindow function outside of the DOMContentLoaded event listener
+function initializeOverlayWindow() {
+    const overlayWindow = document.getElementById('overlay-window');
+    const overlayContainer = overlayWindow.querySelector('.overlay-image-container');
+    
+    if (!overlayWindow || !overlayContainer) {
+        console.error('Overlay window or container not found');
+        return;
+    }
+    
+    // Set initial position attributes if they don't exist
+    if (!overlayWindow.hasAttribute('data-x')) {
+        overlayWindow.setAttribute('data-x', '0');
+    }
+    
+    if (!overlayWindow.hasAttribute('data-y')) {
+        overlayWindow.setAttribute('data-y', '0');
+    }
+    
+    // Function to update overlay image position
+    function updateOverlayImagePosition() {
+        // Get the current translation values from data attributes
+        const translateX = parseFloat(overlayWindow.getAttribute('data-x')) || 0;
+        const translateY = parseFloat(overlayWindow.getAttribute('data-y')) || 0;
+        
+        // Apply the inverse translation to the image container
+        overlayContainer.style.transform = `translate(${-translateX}px, ${-translateY}px)`;
+        
+        // Debug logging
+        console.log('Updating overlay position:', -translateX, -translateY);
+    }
+    
+    // Initialize the image position
+    updateOverlayImagePosition();
+    
+    // Create a specialized draggable interaction just for the overlay window
+    // We'll unbind existing interact instance first to avoid conflicts
+    if (interact.isSet && interact.isSet('#overlay-window')) {
+        interact('#overlay-window').unset();
+    }
+    
+    interact('#overlay-window').draggable({
+        inertia: false, // Disable inertia for precise movement
+        listeners: {
+            start(event) {
+                // Add dragging class
+                event.target.classList.add('dragging');
+                
+                // Bring window to front
+                const zIndex = getHighestZIndex() + 1;
+                event.target.style.zIndex = zIndex;
+            },
+            
+            move(event) {
+                const target = event.target;
+                
+                // Get current position
+                let x = parseFloat(target.getAttribute('data-x')) || 0;
+                let y = parseFloat(target.getAttribute('data-y')) || 0;
+                
+                // Update position
+                x += event.dx;
+                y += event.dy;
+                
+                // Apply translation to the window
+                target.style.transform = `translate(${x}px, ${y}px)`;
+                
+                // Store updated position
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+                
+                // Update the overlay image position to reveal the correct part
+                updateOverlayImagePosition();
+            },
+            
+            end(event) {
+                // Remove dragging class
+                event.target.classList.remove('dragging');
+            }
+        }
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        updateOverlayImagePosition();
+    });
+}
+
+    // Utility function to get highest z-index
+    function getHighestZIndex() {
+        const elements = document.querySelectorAll('.draggable-window, .draggable-icon');
+        let highest = 0;
+        
+        elements.forEach(el => {
+            const zIndex = parseInt(window.getComputedStyle(el).zIndex, 10);
+            if (!isNaN(zIndex) && zIndex > highest) {
+                highest = zIndex;
+            }
+        });
+        
+        return highest;
+    }
+    
+</script>
+
+
+
+</body>
+</html>
